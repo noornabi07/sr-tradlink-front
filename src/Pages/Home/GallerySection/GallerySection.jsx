@@ -22,13 +22,13 @@ const GallerySection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold">
-            Our Gallery
+            আমাদের গ্যালারি
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mt-6">
-            A Visual Glimpse of SR Tradlink
+            এসআর ট্রেডলিংকের একটি দৃশ্যমান ঝলক
           </h2>
           <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
-            Explore our store, products, warehouse, and delivery operations.
+            আমাদের দোকান, পণ্য, গুদাম এবং ডেলিভারি কার্যক্রম অন্বেষণ করুন।
           </p>
         </div>
 
@@ -50,8 +50,10 @@ const GallerySection = () => {
 
               {/* Title */}
               <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <p className="text-lg font-semibold">SR Tradlink</p>
-                <p className="text-sm text-gray-200">Cattle Feed Store</p>
+                <p className="text-lg font-semibold">এসআর ট্রেডলিংক</p>
+                <p className="text-sm text-gray-200">
+                  গবাদি পশুর খাবারের দোকান
+                </p>
               </div>
             </div>
           ))}

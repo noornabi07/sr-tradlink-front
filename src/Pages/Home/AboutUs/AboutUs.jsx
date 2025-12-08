@@ -17,33 +17,33 @@ const AboutUs = () => {
 
           <div class="space-y-6">
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-              About{" "}
+              আমাদের{" "}
               <span class="bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
-                Our Company
+                দোকান সম্পর্কে
               </span>
             </h2>
 
             <p class="text-lg text-gray-600 leading-relaxed">
-              We are committed to providing premium quality products with modern
-              design and innovative craftsmanship. Our mission is to deliver
-              excellence and build long-lasting trust with our customers.
+              আমরা আধুনিক নকশা এবং উদ্ভাবনী কারুশিল্প সহ প্রিমিয়াম মানের পণ্য
+              সরবরাহ করতে প্রতিশ্রুতিবদ্ধ। আমাদের লক্ষ্য হল উৎকর্ষতা প্রদান করা
+              এবং আমাদের গ্রাহকদের সাথে দীর্ঘস্থায়ী আস্থা তৈরি করা।
             </p>
 
             <p class="text-gray-600 leading-relaxed">
-              With years of experience, we have mastered the art of creating
-              world-class items that truly stand out. Every product is carefully
-              designed with precision and passion.
+              বছরের পর বছর অভিজ্ঞতার মাধ্যমে, আমরা বিশ্বমানের জিনিসপত্র তৈরির
+              শিল্পে দক্ষতা অর্জন করেছি যা সত্যিই আলাদা। প্রতিটি পণ্য সাবধানে
+              নির্ভুলতা এবং আবেগের সাথে ডিজাইন করা হয়েছে।
             </p>
 
             <div class="grid grid-cols-2 gap-6 pt-4">
               <div class="p-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300">
-                <h3 class="text-3xl font-bold text-green-600">10+</h3>
-                <p class="text-gray-700">Years Experience</p>
+                <h3 class="text-3xl font-bold text-green-600">২+</h3>
+                <p class="text-gray-700">বছরের অভিজ্ঞতা</p>
               </div>
 
               <div class="p-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300">
-                <h3 class="text-3xl font-bold text-green-600">5000+</h3>
-                <p class="text-gray-700">Happy Clients</p>
+                <h3 class="text-3xl font-bold text-green-600">১৫০+</h3>
+                <p class="text-gray-700">খুশি ক্লায়েন্ট</p>
               </div>
             </div>
 
@@ -51,7 +51,7 @@ const AboutUs = () => {
               href="#"
               class="inline-block mt-4 px-8 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-emerald-600 to-green-600 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
-              Learn More
+              আরও জানুন
             </a>
           </div>
         </div>

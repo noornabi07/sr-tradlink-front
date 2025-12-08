@@ -119,14 +119,14 @@ const ProductsGrid = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
           <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold">
-            Our Products
+            আমাদের পণ্য
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mt-6">
-            Premium Cattle Feed Catalog
+            প্রিমিয়াম গবাদি পশুর খাদ্য ক্যাটালগ
           </h2>
           <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
-            Explore our wide range of high-quality cattle feed products from SR
-            Tradlink.
+            এস আর থেকে আমাদের উচ্চমানের গবাদি পশুর খাদ্য পণ্যের বিস্তৃত পরিসর
+            ঘুরে দেখুন।
           </p>
         </div>
 
@@ -159,7 +159,7 @@ const ProductsGrid = () => {
                 </p>
 
                 <button className="w-full py-3 rounded-xl font-semibold border border-green-600 text-green-700 hover:bg-green-600 hover:text-white transition-all duration-300">
-                  View Details
+                  বিস্তারিত দেখুন
                 </button>
               </div>
             </div>
@@ -174,7 +174,7 @@ const ProductsGrid = () => {
             className="px-5 py-3 bg-white border border-gray-300 rounded-xl shadow-sm hover:bg-gray-100 disabled:opacity-40"
             disabled={currentPage === 1}
           >
-            Previous
+            পূর্ববর্তী
           </button>
 
           <button
@@ -184,7 +184,7 @@ const ProductsGrid = () => {
             className="px-5 py-3 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 disabled:opacity-40"
             disabled={currentPage === totalPages}
           >
-            See More Products
+            আরও পণ্য দেখুন
           </button>
         </div>
       </div>

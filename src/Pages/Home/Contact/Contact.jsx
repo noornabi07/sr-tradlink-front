@@ -5,14 +5,14 @@ const ContactSection = () => {
         {/* Header */}
         <div className="text-center mb-14">
           <span className="badge badge-success badge-lg py-3 px-5 text-black font-semibold">
-            Contact Us
+            যোগাযোগ করুন
           </span>
 
           <h2 className="text-4xl font-bold mt-6">
-            Get In Touch With SR Tradlink
+            এসআর ট্রেডলিংকের সাথে যোগাযোগ করুন
           </h2>
           <p className="text-gray-600 text-lg mt-3 max-w-xl mx-auto">
-            We're always here to help you with orders
+            অর্ডারের ক্ষেত্রে আপনাকে সাহায্য করার জন্য আমরা সর্বদা এখানে আছি।
           </p>
         </div>
 
@@ -20,7 +20,7 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Info Card */}
           <div className="card bg-white shadow-xl rounded-3xl p-8">
-            <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+            <h3 className="text-2xl font-bold mb-6">যোগাযোগের তথ্য</h3>
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">

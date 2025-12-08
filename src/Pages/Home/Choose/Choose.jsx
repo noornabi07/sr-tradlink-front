@@ -6,15 +6,15 @@ const Choose = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
           <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold">
-            Why Choose Us
+            কেনো বাছাই করবেন
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mt-6">
-            Trusted Cattle Feed You Can Rely On
+            নির্ভরযোগ্য গবাদি পশুর খাদ্য যা আপনি নির্ভর করতে পারেন
           </h2>
           <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
-            SR Tradlink ensures top-quality feed that boosts cattle growth,
-            improves milk production, and keeps your livestock
-            healthy—naturally.
+            এসআর ট্রেডলিংক উচ্চমানের খাদ্য নিশ্চিত করে যা গবাদি পশুর বৃদ্ধি
+            বৃদ্ধি করে, দুধ উৎপাদন উন্নত করে এবং আপনার গবাদি পশুকে সুস্থ
+            রাখে—স্বাভাবিকভাবেই।
           </p>
         </div>
 
@@ -25,11 +25,11 @@ const Choose = () => {
               🥛
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              Boosts Milk Production
+              দুধ উৎপাদন বৃদ্ধি করে
             </h3>
             <p className="text-gray-600">
-              Scientifically formulated feeds that help increase milk yield
-              naturally.
+              বৈজ্ঞানিকভাবে তৈরি খাদ্য যা প্রাকৃতিকভাবে দুধের উৎপাদন বৃদ্ধিতে
+              সাহায্য করে।
             </p>
           </div>
 
@@ -39,10 +39,11 @@ const Choose = () => {
               🌾
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              Premium Quality Ingredients
+              প্রিমিয়াম মানের উপকরণ
             </h3>
             <p className="text-gray-600">
-              We use only the best raw materials—fresh, safe, and tested.
+              আমরা শুধুমাত্র সেরা কাঁচামাল ব্যবহার করি—তাজা, নিরাপদ এবং
+              পরীক্ষিত।
             </p>
           </div>
 
@@ -52,10 +53,11 @@ const Choose = () => {
               🚛
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              Fast & Reliable Delivery
+              দ্রুত এবং নির্ভরযোগ্য ডেলিভারি
             </h3>
             <p className="text-gray-600">
-              Bulk or retail—your orders reach you quickly and safely.
+              পাইকারি বা খুচরা—আপনার অর্ডারগুলি দ্রুত এবং নিরাপদে আপনার কাছে
+              পৌঁছে যাবে।
             </p>
           </div>
 
@@ -65,10 +67,11 @@ const Choose = () => {
               🔍
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              100% Transparent Quality
+              ১০০% স্বচ্ছ গুণমান
             </h3>
             <p className="text-gray-600">
-              Every batch is checked and verified—no compromise on quality.
+              প্রতিটি ব্যাচ পরীক্ষা-নিরীক্ষা করা হয় - মানের সাথে কোনও আপস করা
+              হয় না।
             </p>
           </div>
 
@@ -78,10 +81,10 @@ const Choose = () => {
               💰
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              Best Prices in Market
+              বাজারে সেরা দাম
             </h3>
             <p className="text-gray-600">
-              Wholesale & retail rates that give maximum value to farmers.
+              পাইকারি ও খুচরা মূল্য যা কৃষকদের সর্বোচ্চ মূল্য দেয়।
             </p>
           </div>
 
@@ -91,10 +94,10 @@ const Choose = () => {
               🤝
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-              Trusted by 500+ Farmers
+              ১৫০+ কৃষকের বিশ্বস্ত
             </h3>
             <p className="text-gray-600">
-              Years of experience serving farmers with consistent performance.
+              ধারাবাহিক কর্মক্ষমতা সহ কৃষকদের সেবা করার বছরের অভিজ্ঞতা।
             </p>
           </div>
         </div>
