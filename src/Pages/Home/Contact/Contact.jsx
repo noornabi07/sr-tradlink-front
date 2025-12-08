@@ -1,3 +1,7 @@
+import { BiPhoneCall } from "react-icons/bi";
+import { BsEnvelopeFill } from "react-icons/bs";
+import { GoLocation } from "react-icons/go";
+
 const ContactSection = () => {
   return (
     <section id="contact" className="py-24 bg-gray-50">
@@ -24,18 +28,18 @@ const ContactSection = () => {
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-phone text-3xl text-green-600"></i>
-                <p className="text-lg">+880 1234 567 890</p>
+                <BiPhoneCall className="text-3xl text-green-600" />
+                <p className="text-lg">+৮৮০ ১৮২৬১৪৭১৮০</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-envelope text-3xl text-green-600"></i>
-                <p className="text-lg">info@srtradlink.com</p>
+                <BsEnvelopeFill className="text-3xl text-green-600" />
+                <p className="text-lg">noornabikhan100@gmail.com</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-location-dot text-3xl text-green-600"></i>
-                <p className="text-lg">Bogura, Bangladesh</p>
+                <GoLocation className="text-3xl text-green-600" />
+                <p className="text-lg">ঝাড়বাড়ী, বীরগঞ্জ, দিনাজপুর </p>
               </div>
             </div>
           </div>
@@ -49,7 +53,7 @@ const ContactSection = () => {
             {/* Maps Wrapper */}
             <div className="relative w-full max-w-6xl p-6">
               <h3 className="text-3xl font-bold mb-8 text-center text-gray-900 drop-shadow-sm">
-                Find Us on Google Maps
+                গুগল ম্যাপে আমাদের খুঁজুন
               </h3>
 
               <div className="relative w-full h-[420px] rounded-3xl overflow-hidden shadow-[0_10px_50px_rgba(0,0,0,0.25)] border border-white/30">
