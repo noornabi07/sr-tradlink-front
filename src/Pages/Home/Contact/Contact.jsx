@@ -1,3 +1,7 @@
+import { BiPhoneCall } from "react-icons/bi";
+import { BsEnvelopeFill } from "react-icons/bs";
+import { GoLocation } from "react-icons/go";
+
 const ContactSection = () => {
   return (
     <section id="contact" className="py-24 bg-gray-50">
@@ -5,14 +9,14 @@ const ContactSection = () => {
         {/* Header */}
         <div className="text-center mb-14">
           <span className="badge badge-success badge-lg py-3 px-5 text-black font-semibold">
-            Contact Us
+            যোগাযোগ করুন
           </span>
 
           <h2 className="text-4xl font-bold mt-6">
-            Get In Touch With SR Tradlink
+            এসআর ট্রেডলিংকের সাথে যোগাযোগ করুন
           </h2>
           <p className="text-gray-600 text-lg mt-3 max-w-xl mx-auto">
-            We're always here to help you with orders
+            অর্ডারের ক্ষেত্রে আপনাকে সাহায্য করার জন্য আমরা সর্বদা এখানে আছি।
           </p>
         </div>
 
@@ -20,22 +24,22 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Info Card */}
           <div className="card bg-white shadow-xl rounded-3xl p-8">
-            <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+            <h3 className="text-2xl font-bold mb-6">যোগাযোগের তথ্য</h3>
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-phone text-3xl text-green-600"></i>
-                <p className="text-lg">+880 1234 567 890</p>
+                <BiPhoneCall className="text-3xl text-green-600" />
+                <p className="text-lg">+৮৮০ ১৮২৬১৪৭১৮০</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-envelope text-3xl text-green-600"></i>
-                <p className="text-lg">info@srtradlink.com</p>
+                <BsEnvelopeFill className="text-3xl text-green-600" />
+                <p className="text-lg">noornabikhan100@gmail.com</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <i className="fa-solid fa-location-dot text-3xl text-green-600"></i>
-                <p className="text-lg">Bogura, Bangladesh</p>
+                <GoLocation className="text-3xl text-green-600" />
+                <p className="text-lg">ঝাড়বাড়ী, বীরগঞ্জ, দিনাজপুর </p>
               </div>
             </div>
           </div>
@@ -49,7 +53,7 @@ const ContactSection = () => {
             {/* Maps Wrapper */}
             <div className="relative w-full max-w-6xl p-6">
               <h3 className="text-3xl font-bold mb-8 text-center text-gray-900 drop-shadow-sm">
-                Find Us on Google Maps
+                গুগল ম্যাপে আমাদের খুঁজুন
               </h3>
 
               <div className="relative w-full h-[420px] rounded-3xl overflow-hidden shadow-[0_10px_50px_rgba(0,0,0,0.25)] border border-white/30">

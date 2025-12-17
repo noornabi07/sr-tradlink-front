@@ -13,30 +13,32 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
-            <h2 className="text-3xl font-bold text-white mb-4">SR Tradlink</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              এসআর ট্রেডলিংক
+            </h2>
             <p className="text-gray-400 leading-relaxed">
-              Your trusted partner in premium cattle feed, silage, grains & farm
-              nutrition supplies.
+              প্রিমিয়াম গবাদি পশুর খাদ্য, সাইলেজ, শস্য এবং খামারের পুষ্টি
+              সরবরাহে আপনার বিশ্বস্ত অংশীদার।
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">
-              Quick Links
+              দ্রুত লিংক
             </h3>
             <ul className="space-y-3 text-gray-400 text-sm">
               <li className="hover:text-white transition cursor-pointer">
-                About Us
+                আমাদের সম্পর্কে
               </li>
               <li className="hover:text-white transition cursor-pointer">
-                Products
+                পণ্য
               </li>
               <li className="hover:text-white transition cursor-pointer">
-                Gallery
+                গ্যালারি
               </li>
               <li className="hover:text-white transition cursor-pointer">
-                Contact
+                যোগাযোগ
               </li>
             </ul>
           </div>
@@ -44,33 +46,33 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">
-              Contact Info
+              যোগাযোগের তথ্য
             </h3>
             <ul className="space-y-3 text-gray-400 text-sm">
-              <li>📍 Jharbari, dinajpur, Bangladesh</li>
+              <li>📍 ঝাড়বাড়ী, বীরগঞ্জ, দিনাজপুর </li>
               <li>📞 +880 1826147180</li>
               <li>✉️ noornabikhan100@gmail.com</li>
-              <li>🕒 9:00 AM – 9:00 PM</li>
+              <li>🕒 সকাল ৯:০০ - রাত ৯:০০</li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">
-              Newsletter
+              নিউজ লেটার
             </h3>
             <p className="text-gray-400 mb-4 text-sm">
-              Subscribe to get updates on new product arrivals.
+              নতুন পণ্যের আগমনের আপডেট পেতে সাবস্ক্রাইব করুন।
             </p>
 
             <div className="flex items-center gap-2">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="আপনার ইমেল লিখুন"
                 className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-300 outline-none"
               />
               <button className="px-4 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition">
-                Join
+                যোগদান করুন
               </button>
             </div>
           </div>
@@ -83,14 +85,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
           <p>
             © {new Date().getFullYear()}{" "}
-            <span className="text-white font-semibold">SR Tradlink</span>. All
-            Rights Reserved.
+            <span className="text-white font-semibold">এসআর ট্রেডলিংক</span>.
+            সর্বস্বত্ব সংরক্ষিত।
           </p>
 
           <div className="flex gap-5 mt-4 md:mt-0">
-            <a className="hover:text-white transition">Privacy Policy</a>
-            <a className="hover:text-white transition">Terms</a>
-            <a className="hover:text-white transition">Support</a>
+            <a className="hover:text-white transition">গোপনীয়তা নীতি</a>
+            <a className="hover:text-white transition">শর্তাবলী</a>
+            <a className="hover:text-white transition">সমর্থন</a>
           </div>
         </div>
       </div>
