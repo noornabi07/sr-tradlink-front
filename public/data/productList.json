@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "kebichi Vushi",
+    "pricePerKg": 50,
+     "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 100,
+        "kroyprice": 5000,
+        "dailysale": 2000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 150,
+        "kroyprice": 7000,
+        "dailysale": 3000
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Nabil Vushi",
+    "pricePerKg": 55
+  },
+  {
+    "id": 3,
+    "name": "Nabil Premium Dairy",
+    "pricePerKg": 60
+  },
+  {
+    "id": 4,
+    "name": "Nabil Premium Fattening",
+    "pricePerKg": 60
+  },
+  {
+    "id": 5,
+    "name": "Nabil Natural Dairy",
+    "pricePerKg": 50
+  },
+  {
+    "id": 6,
+    "name": "Nabil Natural Fettening",
+    "pricePerKg": 50
+  },
+  {
+    "id": 7,
+    "name": "Pusti Vushi",
+    "pricePerKg": 60
+  },
+  {
+    "id": 8,
+    "name": "Medicine",
+    "pricePerKg": 850
+  }
+]

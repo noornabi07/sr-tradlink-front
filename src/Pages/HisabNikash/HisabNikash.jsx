@@ -1,8 +1,14 @@
 import { useState } from "react";
 import BakiHisab from "./BakiHisab";
+import MalerHisab from "./MalerHisab";
+import { useSearchParams } from "react-router-dom";
 
 const HisabNikash = () => {
-  const [activeTab, setActiveTab] = useState("baki");
+  const [searchParams] = useSearchParams();
+  // const [activeTab, setActiveTab] = useState("baki");
+  const defaultTab = searchParams.get("tab") || "baki";
+  const [activeTab, setActiveTab] = useState(defaultTab);
+  
 
   return (
     <div className="min-h-screen pt-28 px-4 bg-base-200">
@@ -45,15 +51,3 @@ const HisabNikash = () => {
 };
 
 export default HisabNikash;
-
-/* ===== Sub Pages ===== */
-
-const MalerHisab = () => {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold text-green-700">
-        মালের স্টক হিসাব
-      </h1>
-    </div>
-  );
-};
