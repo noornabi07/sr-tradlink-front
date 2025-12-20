@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Rahim Uddin",
+    "location": "Dhaka",
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroy": 5000,
+        "jomaDate": "2025-01-10",
+        "joma": 2000
+      },
+      {
+        "date": "2025-01-18",
+        "kroy": 3000,
+        "jomaDate": "2025-01-22",
+        "joma": 1500
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Karim Traders",
+    "location": "Chittagong",
+    "transactions": [
+      {
+        "date": "2025-02-02",
+        "kroy": 8000,
+        "jomaDate": "2025-02-06",
+        "joma": 3000
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Salim Khamar",
+    "location": "Rajshahi",
+    "transactions": [
+      {
+        "date": "2025-01-12",
+        "kroy": 4500,
+        "jomaDate": "2025-01-16",
+        "joma": 2000
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Al Amin Store",
+    "location": "Bogura",
+    "transactions": [
+      {
+        "date": "2025-02-10",
+        "kroy": 6000,
+        "jomaDate": "2025-02-15",
+        "joma": 2500
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Hasan Dairy Farm",
+    "location": "Mymensingh",
+    "transactions": [
+      {
+        "date": "2025-01-25",
+        "kroy": 7000,
+        "jomaDate": "2025-01-30",
+        "joma": 3000
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Rafik Enterprise",
+    "location": "Cumilla",
+    "transactions": [
+      {
+        "date": "2025-02-05",
+        "kroy": 9000,
+        "jomaDate": "2025-02-10",
+        "joma": 4000
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Jamal Agro",
+    "location": "Rangpur",
+    "transactions": [
+      {
+        "date": "2025-01-08",
+        "kroy": 5500,
+        "jomaDate": "2025-01-13",
+        "joma": 2000
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Kamal Feed House",
+    "location": "Sylhet",
+    "transactions": [
+      {
+        "date": "2025-02-01",
+        "kroy": 10000,
+        "jomaDate": "2025-02-05",
+        "joma": 5000
+      }
+    ]
+  }
+]

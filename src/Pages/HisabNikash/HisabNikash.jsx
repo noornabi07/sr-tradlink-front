@@ -2,7 +2,7 @@ import { useState } from "react";
 import BakiHisab from "./BakiHisab";
 
 const HisabNikash = () => {
-  const [activeTab, setActiveTab] = useState("maler");
+  const [activeTab, setActiveTab] = useState("baki");
 
   return (
     <div className="min-h-screen pt-28 px-4 bg-base-200">
