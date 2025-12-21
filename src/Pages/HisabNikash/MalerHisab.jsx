@@ -13,14 +13,14 @@ const MalerHisab = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-green-700 text-center mb-10">
-        Maler List
+       মালের তালিকা 
       </h1>
 
       {/* Search */}
       <div className="flex justify-center mb-10">
         <input
           type="text"
-          placeholder="Search by name"
+          placeholder="নাম দিয়ে সার্চ করুন"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full max-w-xl px-5 py-4 rounded-2xl border

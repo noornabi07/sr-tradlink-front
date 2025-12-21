@@ -8,49 +8,171 @@
         "date": "2025-01-05",
         "kroyweight": 100,
         "kroyprice": 5000,
-        "dailysale": 2000
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
       },
       {
         "date": "2025-03-07",
-        "kroyweight": 150,
-        "kroyprice": 7000,
-        "dailysale": 3000
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
       }
     ]
   },
   {
     "id": 2,
     "name": "Nabil Vushi",
-    "pricePerKg": 55
+    "pricePerKg": 55,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 3,
     "name": "Nabil Premium Dairy",
-    "pricePerKg": 60
+    "pricePerKg": 60,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 4,
     "name": "Nabil Premium Fattening",
-    "pricePerKg": 60
+    "pricePerKg": 60,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 5,
     "name": "Nabil Natural Dairy",
-    "pricePerKg": 50
+    "pricePerKg": 50,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 6,
     "name": "Nabil Natural Fettening",
-    "pricePerKg": 50
+    "pricePerKg": 50,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 7,
     "name": "Pusti Vushi",
-    "pricePerKg": 60
+    "pricePerKg": 60,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   },
   {
     "id": 8,
     "name": "Medicine",
-    "pricePerKg": 850
+    "pricePerKg": 850,
+    "transactions": [
+      {
+        "date": "2025-01-05",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "2025-03-07",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
   }
 ]

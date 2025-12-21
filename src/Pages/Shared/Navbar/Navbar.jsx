@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = () => {
   const [password, setPassword] = useState("");
@@ -41,11 +41,11 @@ const Navbar = () => {
               </svg>
             </div>
             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-              <li><a href="#home">হোম</a></li>
-              <li><a href="#choose">পণ্যসমূহ</a></li>
-              <li><a href="#gallery">গ্যালারি</a></li>
-              <li><a href="#about">আমাদের সম্পর্কে</a></li>
-              <li><a href="#contact">যোগাযোগ</a></li>
+              <li><Link to="/">হোম</Link></li>
+              <li><Link to="/#choose">পণ্যসমূহ</Link></li>
+              <li><Link to="/#gallery">গ্যালারি</Link></li>
+              <li><Link to="/about">আমাদের সম্পর্কে</Link></li>
+              <li><Link to="/#contact">যোগাযোগ</Link></li>
               <li>
                 <button onClick={() => document.getElementById("hisab_modal").showModal()}>
                   হিসাবনিকাশ

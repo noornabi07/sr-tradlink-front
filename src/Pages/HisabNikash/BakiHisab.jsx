@@ -20,7 +20,7 @@ const BakiHisab = () => {
       <div className="flex justify-center mb-10">
         <input
           type="text"
-          placeholder="নাম দিয়ে সার্চ করো"
+          placeholder="নাম দিয়ে সার্চ করুন"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full max-w-xl px-5 py-4 rounded-2xl border
@@ -39,7 +39,7 @@ const BakiHisab = () => {
             >
               <div>
                 <h2 className="text-xl font-bold">{item.name}</h2>
-                <p className="text-gray-500 mt-1">📍 {item.location}</p>
+                <p className="text-gray-500 mt-1 text-left">📍 {item.location}</p>
               </div>
 
               <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
