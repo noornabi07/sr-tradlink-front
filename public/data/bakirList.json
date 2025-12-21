@@ -108,5 +108,31 @@
         "joma": 5000
       }
     ]
+  },
+  {
+    "id": 9,
+    "name": "Jamal Poltry House",
+    "location": "Sylhet",
+    "transactions": [
+      {
+        "date": "2025-02-01",
+        "kroy": 10000,
+        "jomaDate": "2025-02-05",
+        "joma": 5000
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Alamgir Hossain",
+    "location": "Sylhet",
+    "transactions": [
+      {
+        "date": "2025-02-01",
+        "kroy": 10000,
+        "jomaDate": "2025-02-05",
+        "joma": 5000
+      }
+    ]
   }
 ]

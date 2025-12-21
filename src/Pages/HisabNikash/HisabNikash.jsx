@@ -5,7 +5,6 @@ import { useSearchParams } from "react-router-dom";
 
 const HisabNikash = () => {
   const [searchParams] = useSearchParams();
-  // const [activeTab, setActiveTab] = useState("baki");
   const defaultTab = searchParams.get("tab") || "baki";
   const [activeTab, setActiveTab] = useState(defaultTab);
   

@@ -3,19 +3,18 @@
     "id": 1,
     "name": "kebichi Vushi",
     "pricePerKg": 50,
-     "transactions": [
+    "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "05-01-2025",
         "kroyweight": 100,
         "kroyprice": 5000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "07-03-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -27,17 +26,16 @@
     "pricePerKg": 55,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "12-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "15-02-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -49,17 +47,16 @@
     "pricePerKg": 60,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "20-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "25-02-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -71,17 +68,16 @@
     "pricePerKg": 60,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "02-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "18-03-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -93,17 +89,16 @@
     "pricePerKg": 50,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "08-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "22-02-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -115,17 +110,16 @@
     "pricePerKg": 50,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "10-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "28-02-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -137,17 +131,16 @@
     "pricePerKg": 60,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "14-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "30-03-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
@@ -159,17 +152,86 @@
     "pricePerKg": 850,
     "transactions": [
       {
-        "date": "2025-01-05",
+        "date": "05-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       },
       {
-        "date": "2025-03-07",
+        "date": "15-01-2025",
         "kroyweight": 0,
         "kroyprice": 0,
-        "dailysale": 3000,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "25-01-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "05-02-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "15-02-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "25-02-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Putin",
+    "pricePerKg": 850,
+    "transactions": [
+      {
+        "date": "12-01-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "20-03-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Soyamil",
+    "pricePerKg": 850,
+    "transactions": [
+      {
+        "date": "18-01-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
+        "dailysaleweight": 2000,
+        "dailysaleprice": 5000
+      },
+      {
+        "date": "28-03-2025",
+        "kroyweight": 0,
+        "kroyprice": 0,
         "dailysaleweight": 2000,
         "dailysaleprice": 5000
       }
