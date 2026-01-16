@@ -2,35 +2,32 @@ import { useParams, useNavigate } from "react-router-dom";
 import bakirList from "../../../public/data/bakirList.json";
 import { FiEdit, FiPlusCircle, FiTrash2, FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const BakiDetails = () => {
     const { id } = useParams();
+    const [client, setClient] = useState(null);
     const navigate = useNavigate();
+
+    console.log(client);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [date, setDate] = useState("");
     const [kroy, setKroy] = useState("");
     const [joma, setJoma] = useState("");
+    const [baki, setBaki] = useState("");
 
-
-    const user = bakirList.find(
-        (item) => item.id === parseInt(id)
-    );
-
-    if (!user) {
-        return (
-            <h2 className="text-center text-red-600 text-2xl mt-20">
-                কোনো তথ্য পাওয়া যায়নি
-            </h2>
-        );
-    }
+    useEffect(() => {
+        fetch(`http://localhost:3000/clients/${id}`)
+            .then(res => res.json())
+            .then(data => setClient(data));
+    }, [id]);
 
     // ===== CALCULATIONS =====
     let totalKroy = 0;
     let totalJoma = 0;
 
-    user.transactions.forEach((t) => {
+    client?.transactions?.forEach((t) => {
         totalKroy += t.kroy;
         totalJoma += t.joma;
     });
@@ -40,7 +37,7 @@ const BakiDetails = () => {
 
 
     const handleAddTransaction = () => {
-        if (!date || kroy === "" || joma === "") {
+        if (!date || kroy === "" || joma === "" || baki === "") {
             Swal.fire({
                 icon: "warning",
                 title: "অসম্পূর্ণ তথ্য",
@@ -51,25 +48,34 @@ const BakiDetails = () => {
         }
 
         const newTransaction = {
-            id: Date.now(),
             date,
-            kroy: parseFloat(kroy),
-            joma: parseFloat(joma),
+            kroy: Number(kroy),
+            joma: Number(joma),
         };
 
         console.log("New Transaction:", newTransaction);
 
-        Swal.fire({
-            icon: "success",
-            title: "লেনদেন সফলভাবে যোগ করা হয়েছে",
-            showConfirmButton: false,
-            timer: 1800,
-            timerProgressBar: true,
-        });
+        fetch(`http://localhost:3000/clients/${id}/transactions`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newTransaction)
+        })
+            .then(res => res.json())
+            .then(() => {
+                setClient(prev => ({
+                    ...prev,
+                    transactions: [...(prev?.transactions || []), newTransaction]
+                }));
 
-        setDate("");
-        setKroy("");
-        setJoma("");
+                Swal.fire({
+                    icon: "success",
+                    title: "লেনদেন যোগ হয়েছে 🎉",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            })
         setIsModalOpen(false);
     };
 
@@ -89,7 +95,7 @@ const BakiDetails = () => {
             {/* Header */}
             <div className="bg-gradient-to-r from-green-600 to-emerald-600
         rounded-3xl p-8 shadow-xl text-white mb-10">
-                <h1 className="text-4xl font-bold">{user.name}</h1>
+                <h1 className="text-4xl font-bold">Name</h1>
                 <p className="mt-2 opacity-90">বাকির হিসাব বিবরণ</p>
             </div>
 
@@ -149,7 +155,7 @@ const BakiDetails = () => {
                         </thead>
 
                         <tbody>
-                            {user.transactions.map((t, index) => {
+                            {client?.transactions?.map((t, index) => {
 
                                 return (
                                     <tr key={index} className="hover:bg-gray-50 transition">
@@ -213,16 +219,23 @@ const BakiDetails = () => {
                             />
                             <input
                                 type="number"
-                                placeholder="মাল ক্রয় ওজন"
+                                placeholder="মোট ক্রয় দর"
                                 value={kroy}
                                 onChange={(e) => setKroy(e.target.value)}
                                 className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
                             />
                             <input
                                 type="number"
-                                placeholder="মাল ক্রয় দর"
+                                placeholder="জমা"
                                 value={joma}
                                 onChange={(e) => setJoma(e.target.value)}
+                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                            <input
+                                type="number"
+                                placeholder="বাকি"
+                                value={baki}
+                                onChange={(e) => setBaki(e.target.value)}
                                 className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
                             />
                         </div>

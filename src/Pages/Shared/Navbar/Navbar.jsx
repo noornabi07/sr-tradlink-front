@@ -43,7 +43,6 @@ const Navbar = () => {
             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               <li><Link to="/">হোম</Link></li>
               <li><Link to="/#choose">পণ্যসমূহ</Link></li>
-              {/* <li><Link to="/#gallery">গ্যালারি</Link></li> */}
               <li><Link to="/#about">আমাদের সম্পর্কে</Link></li>
               <li><Link to="/#contact">যোগাযোগ</Link></li>
               <li>
@@ -68,9 +67,9 @@ const Navbar = () => {
               <Link to="/">হোম</Link>
             </li>
             <li>
-              <Link to="/#choose">পণ্যসমূহ</Link>
+              {/* <Link to="/#choose">পণ্যসমূহ</Link> */}
+              <a href="#products">পণ্যসমূহ</a>
             </li>
-            {/* <li><a href="#gallery">গ্যালারি</a></li> */}
             <li><a href="#about">আমাদের সম্পর্কে</a></li>
             <li><a href="#contact">যোগাযোগ</a></li>
             <li>
