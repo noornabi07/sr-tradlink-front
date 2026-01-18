@@ -1,17 +1,20 @@
-import { useParams, useNavigate } from "react-router-dom";
-import bakirList from "../../../public/data/bakirList.json";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FiEdit, FiPlusCircle, FiTrash2, FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 
 const BakiDetails = () => {
     const { id } = useParams();
     const [client, setClient] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    console.log(client);
+    const { name } = location.state || {};
 
+    const [editingTransaction, setEditingTransaction] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [date, setDate] = useState("");
     const [kroy, setKroy] = useState("");
     const [joma, setJoma] = useState("");
@@ -32,10 +35,6 @@ const BakiDetails = () => {
         totalJoma += t.joma;
     });
 
-    let runningKroy = 0;
-    let runningJoma = 0;
-
-
     const handleAddTransaction = () => {
         if (!date || kroy === "" || joma === "" || baki === "") {
             Swal.fire({
@@ -48,9 +47,11 @@ const BakiDetails = () => {
         }
 
         const newTransaction = {
+            _id: uuidv4(),
             date,
             kroy: Number(kroy),
             joma: Number(joma),
+            baki: Number(baki)
         };
 
         console.log("New Transaction:", newTransaction);
@@ -79,6 +80,97 @@ const BakiDetails = () => {
         setIsModalOpen(false);
     };
 
+    const handleUpdateTransaction = () => {
+        const updatedTransaction = {
+            ...editingTransaction,
+            date,
+            kroy: Number(kroy),
+            joma: Number(joma),
+            baki: Number(baki),
+        };
+
+        fetch(`http://localhost:3000/clients/${id}/transactions/${editingTransaction._id}`, {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(updatedTransaction)
+        })
+            .then(res => res.json())
+            .then(() => {
+                setClient(prev => ({
+                    ...prev,
+                    transactions: prev.transactions.map(t =>
+                        t._id === editingTransaction._id
+                            ? updatedTransaction
+                            : t
+                    )
+                }));
+
+                Swal.fire({
+                    icon: "success",
+                    title: "লেনদেন আপডেট হয়েছে 🎉",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                setIsModalOpen(false);
+                setEditingTransaction(null);
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: "error",
+                    title: "আপডেট ব্যর্থ হয়েছে",
+                    text: "দয়া করে আবার চেষ্টা করুন"
+                });
+            });
+    };
+
+    const handleDeleteTransaction = (transactionId) => {
+        Swal.fire({
+            icon: "warning",
+            title: "আপনি কি নিশ্চিত?",
+            text: "লেনদেনটি স্থায়ীভাবে মুছে যাবে।",
+            showCancelButton: true,
+            confirmButtonText: "হ্যাঁ, মুছে দিন",
+            cancelButtonText: "বাতিল",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/clients/${id}/transactions/${transactionId}`, {
+                    method: "DELETE"
+                })
+                    .then(res => res.json())
+                    .then(() => {
+                        // Frontend state update
+                        setClient(prev => ({
+                            ...prev,
+                            transactions: prev.transactions.filter(t => t._id !== transactionId)
+                        }));
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "লেনদেন মুছে দেওয়া হয়েছে 🎉",
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        Swal.fire({
+                            icon: "error",
+                            title: "মুছে দেওয়া ব্যর্থ হয়েছে",
+                            text: "দয়া করে আবার চেষ্টা করুন"
+                        });
+                    });
+            }
+        });
+    };
+
+
+
     return (
         <div className="max-w-6xl mx-auto mt-24 px-4">
 
@@ -95,7 +187,7 @@ const BakiDetails = () => {
             {/* Header */}
             <div className="bg-gradient-to-r from-green-600 to-emerald-600
         rounded-3xl p-8 shadow-xl text-white mb-10">
-                <h1 className="text-4xl font-bold">Name</h1>
+                <h1 className="text-4xl font-bold">{name}</h1>
                 <p className="mt-2 opacity-90">বাকির হিসাব বিবরণ</p>
             </div>
 
@@ -147,9 +239,8 @@ const BakiDetails = () => {
                             <tr>
                                 <th>তারিখঃ</th>
                                 <th>ক্রয়ঃ</th>
-                                <th>মোট ক্রয়</th>
                                 <th>জমাঃ</th>
-                                <th>মোট জমাঃ </th>
+                                <th>বাকি</th>
                                 <th>তথ্য কার্যকলাপ</th>
                             </tr>
                         </thead>
@@ -161,20 +252,26 @@ const BakiDetails = () => {
                                     <tr key={index} className="hover:bg-gray-50 transition">
                                         <td>{t.date}</td>
                                         <td>৳ {t.kroy}</td>
-                                        <td>৳ {runningKroy}</td>
                                         <td>৳ {t.joma}</td>
-                                        <td>৳ {runningJoma}</td>
+                                        <td>৳ {t.baki}</td>
                                         {/* Actions Buttons */}
                                         <td className="flex justify-center gap-2">
                                             <button
                                                 className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition flex items-center gap-2"
-                                                onClick={() => console.log("Update clicked:", item.id)}
+                                                onClick={() => {
+                                                    setEditingTransaction(t);   // 🔥 এই row টাকেই ধরলাম
+                                                    setDate(t.date);
+                                                    setKroy(t.kroy);
+                                                    setJoma(t.joma);
+                                                    setBaki(t.baki);
+                                                    setIsModalOpen(true);
+                                                }}
                                             >
                                                 <FiEdit /> আপডেট
                                             </button>
                                             <button
                                                 className="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition flex items-center gap-2"
-                                                onClick={() => console.log("Delete clicked:", item.id)}
+                                                onClick={() => handleDeleteTransaction(t._id)}
                                             >
                                                 <FiTrash2 /> ডিলিট
                                             </button>
@@ -205,8 +302,12 @@ const BakiDetails = () => {
                             <FiX />
                         </button>
 
-                        <h2 className="text-2xl font-bold text-green-700 text-center">
+                        {/* <h2 className="text-2xl font-bold text-green-700 text-center">
                             নতুন লেনদেন যোগ করুন
+                        </h2> */}
+
+                        <h2 className="text-2xl font-bold text-green-700 text-center">
+                            {editingTransaction ? "লেনদেন আপডেট করুন" : "নতুন লেনদেন যোগ করুন"}
                         </h2>
 
                         {/* Form */}
@@ -242,7 +343,11 @@ const BakiDetails = () => {
 
                         {/* Save Button */}
                         <button
-                            onClick={handleAddTransaction}
+                            onClick={
+                                editingTransaction
+                                    ? handleUpdateTransaction
+                                    : handleAddTransaction
+                            }
                             className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold text-lg hover:scale-105 transition"
                         >
                             সংরক্ষণ করুন

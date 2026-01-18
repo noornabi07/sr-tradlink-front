@@ -77,7 +77,7 @@ const BakiHisab = () => {
         {paginatedList.length ? (
           paginatedList.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="flex flex-col md:flex-row items-center justify-between
               bg-base-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition"
             >
@@ -88,7 +88,8 @@ const BakiHisab = () => {
 
               <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
                 <Link
-                  to={`/baki-hisab/${item.id}`}
+                  to={`/baki-hisab/${item._id}`}
+                  state={{ name: item.name }}
                   className="px-5 py-2 rounded-xl
                   bg-green-600 text-white font-semibold
                   hover:bg-green-700 transition"
@@ -99,7 +100,7 @@ const BakiHisab = () => {
                 <button
                   className="px-4 py-2 rounded-xl bg-blue-600 text-white
                   font-semibold hover:bg-blue-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Update clicked:", item.id)}
+                  onClick={() => console.log("Update clicked:", item._id)}
                 >
                   <FiEdit /> আপডেট
                 </button>
@@ -107,7 +108,7 @@ const BakiHisab = () => {
                 <button
                   className="px-4 py-2 rounded-xl bg-red-600 text-white
                   font-semibold hover:bg-red-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Delete clicked:", item.id)}
+                  onClick={() => console.log("Delete clicked:", item._id)}
                 >
                   <FiTrash2 /> ডিলিট
                 </button>
