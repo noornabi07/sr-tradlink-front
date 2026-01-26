@@ -8,9 +8,16 @@ const BakiHisab = () => {
   const [search, setSearch] = useState("");
   const [clients, setClients] = useState([]);
 
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  const [updateName, setUpdateName] = useState("");
+  const [updateLocation, setUpdateLocation] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [number, setNumber] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -33,6 +40,90 @@ const BakiHisab = () => {
         setClients(data);
       });
   }, [])
+
+
+  // Baki name update function
+  const handleUpdate = () => {
+    if (!updateName || !updateLocation) {
+      Swal.fire({
+        icon: "warning",
+        title: "অসম্পূর্ণ তথ্য",
+        text: "সব ঘর পূরণ করুন",
+        confirmButtonColor: "#2563eb",
+      });
+      return;
+    }
+
+    const updatedData = {
+      name: updateName,
+      location: updateLocation,
+    };
+
+    fetch(`http://localhost:3000/clients/${selectedClient._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        // UI update
+        setClients((prev) =>
+          prev.map((item) =>
+            item._id === selectedClient._id
+              ? { ...item, ...updatedData }
+              : item
+          )
+        );
+
+        Swal.fire({
+          icon: "success",
+          title: "আপডেট সফল 🎉",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        setIsUpdateModalOpen(false);
+        setSelectedClient(null);
+      });
+  };
+
+
+  // Baki name delete function
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "আপনি কি নিশ্চিত?",
+      text: "এই বাকি ডিলিট হলে আর ফিরে পাওয়া যাবে না!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "হ্যাঁ, ডিলিট করুন",
+      cancelButtonText: "না",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/clients/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              // UI update
+              setClients((prev) => prev.filter((item) => item._id !== id));
+
+              Swal.fire({
+                icon: "success",
+                title: "ডিলিট হয়েছে 🗑️",
+                timer: 1500,
+                showConfirmButton: false,
+              });
+            }
+          });
+      }
+    });
+  };
+
 
 
   return (
@@ -68,7 +159,7 @@ const BakiHisab = () => {
           transition-all duration-300"
         >
           <FiPlusCircle className="text-2xl" />
-          নতুন বাকি যোগ করুন
+          নতুন বাকির নাম লিখুন
         </button>
       </div>
 
@@ -81,9 +172,10 @@ const BakiHisab = () => {
               className="flex flex-col md:flex-row items-center justify-between
               bg-base-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition"
             >
-              <div>
+              <div className="text-left">
                 <h2 className="text-xl font-bold">{item.name}</h2>
                 <p className="text-gray-500 mt-1">📍 {item.location}</p>
+                <p>Number</p>
               </div>
 
               <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
@@ -100,7 +192,12 @@ const BakiHisab = () => {
                 <button
                   className="px-4 py-2 rounded-xl bg-blue-600 text-white
                   font-semibold hover:bg-blue-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Update clicked:", item._id)}
+                  onClick={() => {
+                    setSelectedClient(item);
+                    setUpdateName(item.name);
+                    setUpdateLocation(item.location);
+                    setIsUpdateModalOpen(true);
+                  }}
                 >
                   <FiEdit /> আপডেট
                 </button>
@@ -108,7 +205,7 @@ const BakiHisab = () => {
                 <button
                   className="px-4 py-2 rounded-xl bg-red-600 text-white
                   font-semibold hover:bg-red-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Delete clicked:", item._id)}
+                  onClick={() => handleDelete(item._id)}
                 >
                   <FiTrash2 /> ডিলিট
                 </button>
@@ -191,6 +288,15 @@ const BakiHisab = () => {
                 className="w-full px-5 py-3 rounded-xl border
           focus:ring-2 focus:ring-green-500 outline-none"
               />
+
+              <input
+                type="text"
+                placeholder="মোবাইল নম্বর"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+                className="w-full px-5 py-3 rounded-xl border
+          focus:ring-2 focus:ring-green-500 outline-none"
+              />
             </div>
 
             {/* Save Button */}
@@ -268,6 +374,66 @@ const BakiHisab = () => {
           </style>
         </div>
       )}
+
+
+      {/* Update user modal */}
+      {isUpdateModalOpen && selectedClient && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center
+    bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsUpdateModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-3xl w-[90%] max-w-md
+      shadow-2xl p-8 relative animate-scaleIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              onClick={() => setIsUpdateModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400
+        hover:text-red-500 text-xl transition"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-2xl font-bold text-blue-700 text-center">
+              তথ্য আপডেট করুন
+            </h2>
+
+            <div className="mt-6 space-y-4">
+              <input
+                type="text"
+                value={updateName}
+                onChange={(e) => setUpdateName(e.target.value)}
+                placeholder="নাম"
+                className="w-full px-5 py-3 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+
+              <input
+                type="text"
+                value={updateLocation}
+                onChange={(e) => setUpdateLocation(e.target.value)}
+                placeholder="লোকেশন"
+                className="w-full px-5 py-3 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+
+            <button
+              onClick={() => handleUpdate()}
+              className="w-full mt-6 py-3 rounded-xl
+        bg-gradient-to-r from-blue-600 to-indigo-500
+        text-white font-bold text-lg
+        hover:scale-105 transition"
+            >
+              আপডেট সংরক্ষণ করুন
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
