@@ -300,10 +300,6 @@ const BakiDetails = () => {
                             <FiX />
                         </button>
 
-                        {/* <h2 className="text-2xl font-bold text-green-700 text-center">
-                            নতুন লেনদেন যোগ করুন
-                        </h2> */}
-
                         <h2 className="text-2xl font-bold text-green-700 text-center">
                             {editingTransaction ? "লেনদেন আপডেট করুন" : "নতুন লেনদেন যোগ করুন"}
                         </h2>

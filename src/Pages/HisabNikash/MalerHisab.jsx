@@ -87,7 +87,8 @@ const MalerHisab = () => {
               <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
                 {/* Details Button */}
                 <Link
-                  to={`/product-details/${item.id}`}
+                  to={`/product-details/${item._id}`}
+                  state={{ name: item.name }}
                   className="px-5 py-2 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition flex items-center gap-2"
                 >
                   Details
@@ -204,6 +205,7 @@ const MalerHisab = () => {
                   id: Date.now(),
                   name,
                   pricePerKg: parseFloat(pricePerKg),
+                  transactions: []
                 };
 
                 // 🔜 future: state / localStorage / backend save

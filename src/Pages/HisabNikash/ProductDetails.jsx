@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
-import productList from "../../../public/data/productList.json";
+import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const product = productList.find((item) => item.id.toString() === id);
+  const location = useLocation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState("");
@@ -16,6 +15,15 @@ const ProductDetails = () => {
   const [kroyprice, setKroyprice] = useState("");
   const [dailysaleweight, setDailysaleweight] = useState("");
   const [dailysaleprice, setDailysaleprice] = useState("");
+  const [product, setProduct] = useState([]);
+
+  const { name } = location.state || {};
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/products/${id}`)
+      .then(res => res.json())
+      .then(data => setProduct(data));
+  }, [id]);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,13 +43,9 @@ const ProductDetails = () => {
   });
 
   // ===== SORT TRANSACTIONS BY DATE (LATEST FIRST, DD-MM-YYYY FORMAT) =====
-  const sortedTransactions = [...(product.transactions || [])].sort((a, b) => {
-    const [dayA, monthA, yearA] = a.date.split("-").map(Number);
-    const [dayB, monthB, yearB] = b.date.split("-").map(Number);
-    const dateA = new Date(yearA, monthA - 1, dayA);
-    const dateB = new Date(yearB, monthB - 1, dayB);
-    return dateB - dateA;
-  });
+  const sortedTransactions = [...(product.transactions || [])].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   // Pagination calculations
   const indexOfLast = currentPage * transactionsPerPage;
@@ -49,6 +53,9 @@ const ProductDetails = () => {
   const currentTransactions = sortedTransactions.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(sortedTransactions.length / transactionsPerPage);
 
+  const [editingTransaction, setEditingTransaction] = useState(null);
+
+  // Add transaction handle function
   const handleAddTransaction = () => {
     if (!date || kroyweight === "" || kroyprice === "" || dailysaleweight === "" || dailysaleprice === "") {
       Swal.fire({
@@ -61,30 +68,93 @@ const ProductDetails = () => {
     }
 
     const newTransaction = {
-      id: Date.now(),
+      _id: uuidv4(),
       date,
-      kroyweight: parseFloat(kroyweight),
-      kroyprice: parseFloat(kroyprice),
-      dailysaleweight: parseFloat(dailysaleweight),
-      dailysaleprice: parseFloat(dailysaleprice),
+      kroyweight: Number(kroyweight),
+      kroyprice: Number(kroyprice),
+      dailysaleweight: Number(dailysaleweight),
+      dailysaleprice: Number(dailysaleprice),
     };
 
     console.log("New Transaction:", newTransaction);
 
-    Swal.fire({
-      icon: "success",
-      title: "Transaction সফলভাবে যোগ করা হয়েছে",
-      showConfirmButton: false,
-      timer: 1800,
-      timerProgressBar: true,
-    });
-
+    fetch(`http://localhost:3000/products/${id}/transactions`, {
+      method: 'POST',
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(newTransaction)
+    })
+      .then(res => res.json())
+      .then(() => {
+        setProduct(prev => ({
+          ...prev,
+          transactions: [...(prev?.transactions || []), newTransaction]
+        }));
+        Swal.fire({
+          icon: "success",
+          title: "Transaction সফলভাবে যোগ করা হয়েছে",
+          showConfirmButton: false,
+          timer: 1800,
+          timerProgressBar: true,
+        });
+      })
     setDate("");
     setKroyweight("");
     setKroyprice("");
     setDailysaleweight("");
     setDailysaleprice("");
     setIsModalOpen(false);
+  };
+
+  // Update transaction handle function
+  const handleUpdateTransaction = () => {
+    const updatedTransaction = {
+      ...editingTransaction,
+      date,
+      kroyweight: Number(kroyweight),
+      kroyprice: Number(kroyprice),
+      dailysaleweight: Number(dailysaleweight),
+      dailysaleprice: Number(dailysaleprice),
+
+    };
+
+    fetch(`http://localhost:3000/products/${id}/transactions/${editingTransaction._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTransaction)
+    })
+      .then(res => res.json())
+      .then(() => {
+        setProduct(prev => ({
+          ...prev,
+          transactions: prev.transactions.map(t =>
+            t._id === editingTransaction._id
+              ? updatedTransaction
+              : t
+          )
+        }));
+
+        Swal.fire({
+          icon: "success",
+          title: "লেনদেন আপডেট হয়েছে 🎉",
+          timer: 1500,
+          showConfirmButton: false
+        });
+
+        setIsModalOpen(false);
+        setEditingTransaction(null);
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "আপডেট ব্যর্থ হয়েছে",
+          text: "দয়া করে আবার চেষ্টা করুন"
+        });
+      });
   };
 
   return (
@@ -99,8 +169,8 @@ const ProductDetails = () => {
       </button>
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-8 shadow-xl text-white mb-10 text-center">
-        <h1 className="text-4xl font-bold">{product.name}</h1>
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-8 shadow-xl text-white mb-10 text-left">
+        <h1 className="text-4xl font-bold">{name}</h1>
         <p className="mt-2 opacity-90">পণ্য লেনদেনের বিবরণ</p>
       </div>
 
@@ -177,7 +247,14 @@ const ProductDetails = () => {
                   <td className="flex justify-center gap-2">
                     <button
                       className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition flex items-center gap-2"
-                      onClick={() => console.log("Update clicked:", t.id)}
+                      onClick={() => {
+                        setEditingTransaction(t);   // 🔥 এই row টাকেই ধরলাম
+                        setDate(t.date);
+                        setKroyweight(t.kroyweight);
+                        setKroyprice(t.kroyprice);
+                        setDailysaleweight(t.dailysaleweight);
+                        setDailysaleprice(t.dailysaleprice);
+                      }}
                     >
                       <FiEdit /> Update
                     </button>
@@ -200,11 +277,10 @@ const ProductDetails = () => {
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 rounded-lg font-semibold ${
-                currentPage === i + 1
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
+              className={`px-4 py-2 rounded-lg font-semibold ${currentPage === i + 1
+                ? "bg-green-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
             >
               {i + 1}
             </button>
@@ -274,7 +350,11 @@ const ProductDetails = () => {
 
             {/* Save Button */}
             <button
-              onClick={handleAddTransaction}
+              onClick={
+                editingTransaction
+                  ? handleUpdateTransaction
+                  : handleAddTransaction
+              }
               className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold text-lg hover:scale-105 transition"
             >
               সংরক্ষণ করুন
