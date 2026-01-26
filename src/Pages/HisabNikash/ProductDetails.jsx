@@ -21,14 +21,6 @@ const ProductDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 5;
 
-  if (!product) {
-    return (
-      <div className="text-center mt-20 text-red-600 text-2xl">
-        কোনো তথ্য পাওয়া যায়নি
-      </div>
-    );
-  }
-
   // ===== CALCULATIONS =====
   let totalKroyWeight = 0;
   let totalKroyPrice = 0;

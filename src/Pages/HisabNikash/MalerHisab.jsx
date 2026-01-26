@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
-import productList from "../../../public/data/productList.json";
 import Swal from "sweetalert2";
 
 const MalerHisab = () => {
   const [search, setSearch] = useState("");
+  const [products, setProducts] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ const MalerHisab = () => {
   const itemsPerPage = 8;
 
   // Filtered list based on search
-  const filteredList = productList.filter((item) =>
+  const filteredList = products?.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -24,6 +24,14 @@ const MalerHisab = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedList = filteredList.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+      });
+  }, [])
 
   return (
     <div>
@@ -117,10 +125,9 @@ const MalerHisab = () => {
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`px-4 py-2 rounded-xl font-bold transition
-                  ${
-                    currentPage === page
-                      ? "bg-green-600 text-white shadow-lg"
-                      : "bg-gray-100 text-gray-700 hover:bg-green-100"
+                  ${currentPage === page
+                    ? "bg-green-600 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-green-100"
                   }`}
               >
                 {page}
@@ -199,19 +206,32 @@ const MalerHisab = () => {
                   pricePerKg: parseFloat(pricePerKg),
                 };
 
-                console.log("New Product:", newProduct);
-
                 // 🔜 future: state / localStorage / backend save
-
-                Swal.fire({
-                  icon: "success",
-                  title: "সফল হয়েছে 🎉",
-                  text: "নতুন পণ্য সফলভাবে যোগ করা হয়েছে",
-                  showConfirmButton: false,
-                  timer: 1800,
-                  timerProgressBar: true,
-                });
-
+                fetch('http://localhost:3000/products', {
+                  method: 'POST',
+                  headers: {
+                    'content-type': 'application/json'
+                  },
+                  body: JSON.stringify(newProduct)
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.insertedId) {
+                      setProducts(prev => [
+                        ...prev,
+                        { ...newProduct, _id: data.insertedId }
+                      ]);
+                      // ✅ SUCCESS ALERT
+                      Swal.fire({
+                        icon: "success",
+                        title: "সফল হয়েছে 🎉",
+                        text: "নতুন পণ্য সফলভাবে যোগ করা হয়েছে",
+                        showConfirmButton: false,
+                        timer: 1800,
+                        timerProgressBar: true,
+                      });
+                    }
+                  })
                 setName("");
                 setPricePerKg("");
                 setIsModalOpen(false);

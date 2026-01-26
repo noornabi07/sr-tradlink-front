@@ -173,9 +173,9 @@ const BakiHisab = () => {
               bg-base-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition"
             >
               <div className="text-left">
-                <h2 className="text-xl font-bold">{item.name}</h2>
-                <p className="text-gray-500 mt-1">📍 {item.location}</p>
-                <p>Number</p>
+                <h2 className="text-xl font-bold">{item?.name}</h2>
+                <p className="text-gray-500 mt-1">📍 {item?.location}</p>
+                <p className="text-gray-500 mt-1">{item?.number}</p>
               </div>
 
               <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
@@ -315,6 +315,7 @@ const BakiHisab = () => {
                 const newUser = {
                   name,
                   location,
+                  number,
                   transactions: []
                 };
 
@@ -349,6 +350,7 @@ const BakiHisab = () => {
 
                 setName("");
                 setLocation("");
+                setNumber("");
                 setIsModalOpen(false);
               }}
               className="w-full mt-6 py-3 rounded-xl
@@ -433,7 +435,6 @@ const BakiHisab = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

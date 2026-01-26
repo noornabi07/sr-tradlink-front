@@ -169,8 +169,6 @@ const BakiDetails = () => {
         });
     };
 
-
-
     return (
         <div className="max-w-6xl mx-auto mt-24 px-4">
 
