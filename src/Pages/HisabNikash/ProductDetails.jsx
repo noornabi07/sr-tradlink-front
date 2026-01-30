@@ -42,6 +42,16 @@ const ProductDetails = () => {
     totalSalePrice += t.dailysaleprice;
   });
 
+  // More calculation for benifit
+  const avarageKroyPerKgRate = (totalKroyPrice / totalKroyWeight);
+  const presentStockWeight = (totalKroyWeight - totalSaleWeight);
+  const avarageSellPerKgRate = (totalSalePrice / totalSaleWeight);
+  const munafaDifferrent = (avarageSellPerKgRate - avarageKroyPerKgRate);
+  const netMunafa = (totalSaleWeight * munafaDifferrent);
+
+  console.log("Amar Lav Holo:", netMunafa);
+
+
   // ===== SORT TRANSACTIONS BY DATE (LATEST FIRST, DD-MM-YYYY FORMAT) =====
   const sortedTransactions = [...(product.transactions || [])].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
@@ -157,6 +167,49 @@ const ProductDetails = () => {
       });
   };
 
+  // DELETE tansaction handle function
+
+  const handleDeleteTransaction = (transactionId) => {
+    Swal.fire({
+      title: "আপনি কি নিশ্চিত?",
+      text: "এই লেনদেনটি স্থায়ীভাবে মুছে যাবে!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "হ্যাঁ, ডিলিট করুন",
+      cancelButtonText: "বাতিল",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/products/${id}/transactions/${transactionId}`, {
+          method: "DELETE",
+        })
+          .then(res => res.json())
+          .then(() => {
+            // 🔥 UI থেকে সাথে সাথে remove
+            setProduct(prev => ({
+              ...prev,
+              transactions: prev.transactions.filter(
+                t => t._id !== transactionId
+              )
+            }));
+
+            Swal.fire({
+              icon: "success",
+              title: "লেনদেন মুছে ফেলা হয়েছে",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            Swal.fire("Error", "ডিলিট করা যায়নি", "error");
+          });
+      }
+    });
+  };
+
+
   return (
     <div className="max-w-6xl mx-auto mt-24 px-4">
 
@@ -171,39 +224,39 @@ const ProductDetails = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-8 shadow-xl text-white mb-10 text-left">
         <h1 className="text-4xl font-bold">{name}</h1>
-        <p className="mt-2 opacity-90">পণ্য লেনদেনের বিবরণ</p>
+        <p className="mt-2 opacity-90 font-semibold">পণ্য লেনদেনের বিবরণ</p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid md:grid-cols-4 gap-6 mb-6">
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center border-2 border-gray-300">
           <p className="text-gray-500 font-bold">সর্বমোট ক্রয় ওজন</p>
-          <h2 className="text-3xl font-bold text-green-700 mt-2">{totalKroyWeight} kg</h2>
+          <h2 className="text-3xl font-bold text-blue-700 mt-2">{totalKroyWeight} kg</h2>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center border-2 border-gray-300">
           <p className="text-gray-500 font-bold">সর্বমোট বিক্রয় ওজন</p>
-          <h2 className="text-3xl font-bold text-blue-600 mt-2">{totalSaleWeight} kg</h2>
+          <h2 className="text-3xl font-bold text-green-600 mt-2">{totalSaleWeight} kg</h2>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
           <p className="text-gray-500 font-bold">বর্তমান উপস্থিত ওজন</p>
-          <h2 className="text-3xl font-bold text-red-600 mt-2">{totalKroyWeight - totalSaleWeight} kg</h2>
+          <h2 className="text-3xl font-bold text-blue-600 mt-2">{presentStockWeight} kg</h2>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
           <p className="text-gray-500 font-bold">সর্বমোট ক্রয় টাকা</p>
-          <h2 className="text-3xl font-bold text-red-600 mt-2">৳ {totalKroyPrice}</h2>
+          <h2 className="text-3xl font-bold text-blue-600 mt-2">৳ {totalKroyPrice}</h2>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
           <p className="text-gray-500 font-bold">সর্বমোট বিক্রয় টাকা</p>
-          <h2 className="text-3xl font-bold text-red-600 mt-2">৳ {totalSalePrice}</h2>
+          <h2 className="text-3xl font-bold text-green-600 mt-2">৳ {totalSalePrice}</h2>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
           <p className="text-gray-500 font-bold">সর্বমোট লভ্যাংশ</p>
-          <h2 className="text-3xl font-bold text-red-600 mt-2">৳ {totalSalePrice - totalKroyPrice}</h2>
+          <h2 className="text-3xl font-bold text-green-600 mt-2">৳ {netMunafa}</h2>
         </div>
       </div>
 
@@ -248,19 +301,20 @@ const ProductDetails = () => {
                     <button
                       className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition flex items-center gap-2"
                       onClick={() => {
-                        setEditingTransaction(t);   // 🔥 এই row টাকেই ধরলাম
+                        setEditingTransaction(t);
                         setDate(t.date);
                         setKroyweight(t.kroyweight);
                         setKroyprice(t.kroyprice);
                         setDailysaleweight(t.dailysaleweight);
                         setDailysaleprice(t.dailysaleprice);
+                        setIsModalOpen(true); // 🔥 এই লাইনটাই missing ছিল
                       }}
                     >
                       <FiEdit /> Update
                     </button>
                     <button
                       className="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition flex items-center gap-2"
-                      onClick={() => console.log("Delete clicked:", t.id)}
+                      onClick={() => handleDeleteTransaction(t._id)}
                     >
                       <FiTrash2 /> Delete
                     </button>
@@ -300,7 +354,10 @@ const ProductDetails = () => {
           >
             {/* Close Button */}
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingTransaction(null);
+              }}
               className="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-xl transition"
             >
               <FiX />
@@ -379,6 +436,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-
-
-

@@ -14,6 +14,8 @@ const MalerHisab = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  const [editingProduct, setEditingProduct] = useState(null);
+
   // Filtered list based on search
   const filteredList = products?.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
@@ -31,7 +33,51 @@ const MalerHisab = () => {
       .then(data => {
         setProducts(data);
       });
-  }, [])
+  }, []);
+
+  // Delete function
+
+  const handleDeleteProduct = (id) => {
+    Swal.fire({
+      title: "আপনি নিশ্চিত?",
+      text: "এই পণ্যটি মুছে ফেললে আর ফিরে পাওয়া যাবে না!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#16a34a",
+      confirmButtonText: "হ্যাঁ, মুছে ফেলুন",
+      cancelButtonText: "না, বাতিল",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/products/${id}`, {
+          method: "DELETE",
+        })
+          .then(res => res.json())
+          .then(() => {
+            // 🔥 UI থেকে সাথে সাথে remove
+            setProducts(prev =>
+              prev.filter(product => product._id !== id)
+            );
+
+            Swal.fire({
+              icon: "success",
+              title: "মুছে ফেলা হয়েছে ✅",
+              text: "পণ্যটি সফলভাবে ডিলিট করা হয়েছে",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              icon: "error",
+              title: "ডিলিট ব্যর্থ ❌",
+              text: "দয়া করে আবার চেষ্টা করুন",
+            });
+          });
+      }
+    });
+  };
+
 
   return (
     <div>
@@ -97,7 +143,12 @@ const MalerHisab = () => {
                 {/* Update Button */}
                 <button
                   className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Update clicked:", item.id)}
+                  onClick={() => {
+                    setEditingProduct(item);
+                    setName(item.name);
+                    setPricePerKg(item.pricePerKg);
+                    setIsModalOpen(true);
+                  }}
                 >
                   <FiEdit /> Update
                 </button>
@@ -105,7 +156,7 @@ const MalerHisab = () => {
                 {/* Delete Button */}
                 <button
                   className="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition flex items-center gap-2"
-                  onClick={() => console.log("Delete clicked:", item.id)}
+                  onClick={() => handleDeleteProduct(item._id)}
                 >
                   <FiTrash2 /> Delete
                 </button>
@@ -152,7 +203,10 @@ const MalerHisab = () => {
           >
             {/* Close */}
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingProduct(null);
+              }}
               className="absolute top-4 right-4 text-gray-400
                 hover:text-red-500 text-xl transition"
             >
@@ -160,8 +214,9 @@ const MalerHisab = () => {
             </button>
 
             {/* Title */}
+
             <h2 className="text-2xl font-bold text-green-700 text-center">
-              নতুন পণ্য যোগ করুন
+              {editingProduct ? "পণ্য আপডেট করুন" : "নতুন পণ্য যোগ করুন"}
             </h2>
             <p className="text-center text-gray-500 mt-2">
               নাম এবং কেজি প্রতি দাম লিখুন
@@ -201,43 +256,76 @@ const MalerHisab = () => {
                   return;
                 }
 
-                const newProduct = {
-                  id: Date.now(),
-                  name,
-                  pricePerKg: parseFloat(pricePerKg),
-                  transactions: []
-                };
+                // 🔵 UPDATE MODE
+                if (editingProduct) {
+                  const updatedProduct = {
+                    name,
+                    pricePerKg: Number(pricePerKg),
+                  };
 
-                // 🔜 future: state / localStorage / backend save
-                fetch('http://localhost:3000/products', {
-                  method: 'POST',
-                  headers: {
-                    'content-type': 'application/json'
-                  },
-                  body: JSON.stringify(newProduct)
-                })
-                  .then(res => res.json())
-                  .then(data => {
-                    if (data.insertedId) {
-                      setProducts(prev => [
-                        ...prev,
-                        { ...newProduct, _id: data.insertedId }
-                      ]);
-                      // ✅ SUCCESS ALERT
+                  fetch(`http://localhost:3000/products/${editingProduct._id}`, {
+                    method: "PUT",
+                    headers: {
+                      "content-type": "application/json",
+                    },
+                    body: JSON.stringify(updatedProduct),
+                  })
+                    .then(res => res.json())
+                    .then(() => {
+                      setProducts(prev =>
+                        prev.map(p =>
+                          p._id === editingProduct._id
+                            ? { ...p, ...updatedProduct }
+                            : p
+                        )
+                      );
+
                       Swal.fire({
                         icon: "success",
-                        title: "সফল হয়েছে 🎉",
-                        text: "নতুন পণ্য সফলভাবে যোগ করা হয়েছে",
+                        title: "পণ্য আপডেট হয়েছে 🎉",
+                        timer: 1500,
                         showConfirmButton: false,
-                        timer: 1800,
-                        timerProgressBar: true,
                       });
-                    }
+                    });
+
+                } else {
+                  // 🟢 ADD MODE
+                  const newProduct = {
+                    id: Date.now(),
+                    name,
+                    pricePerKg: Number(pricePerKg),
+                    transactions: [],
+                  };
+
+                  fetch("http://localhost:3000/products", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify(newProduct),
                   })
+                    .then(res => res.json())
+                    .then(data => {
+                      setProducts(prev => [
+                        ...prev,
+                        { ...newProduct, _id: data.insertedId },
+                      ]);
+
+                      Swal.fire({
+                        icon: "success",
+                        title: "নতুন পণ্য যোগ হয়েছে 🎉",
+                        timer: 1500,
+                        showConfirmButton: false,
+                      });
+                    });
+                }
+
+                // Reset
                 setName("");
                 setPricePerKg("");
+                setEditingProduct(null);
                 setIsModalOpen(false);
               }}
+
+
               className="w-full mt-6 py-3 rounded-xl
                 bg-gradient-to-r from-green-600 to-emerald-500
                 text-white font-bold text-lg
