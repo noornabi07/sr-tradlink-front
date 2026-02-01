@@ -70,9 +70,9 @@ const Hero = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-500">
                 <img
-                  src="/images/sr-logo.jpeg"
+                  src="/images/n-r.jpg"
                   alt="SR Logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-[130%] object-cover"
                 />
               </div>
             </div>

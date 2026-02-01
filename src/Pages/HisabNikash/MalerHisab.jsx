@@ -137,7 +137,7 @@ const MalerHisab = () => {
                   state={{ name: item.name }}
                   className="px-5 py-2 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition flex items-center gap-2"
                 >
-                  Details
+                  বিবরণ
                 </Link>
 
                 {/* Update Button */}
@@ -150,7 +150,7 @@ const MalerHisab = () => {
                     setIsModalOpen(true);
                   }}
                 >
-                  <FiEdit /> Update
+                  <FiEdit /> আপডেট
                 </button>
 
                 {/* Delete Button */}
@@ -158,7 +158,7 @@ const MalerHisab = () => {
                   className="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition flex items-center gap-2"
                   onClick={() => handleDeleteProduct(item._id)}
                 >
-                  <FiTrash2 /> Delete
+                  <FiTrash2 /> ডিলিট
                 </button>
               </div>
             </div>

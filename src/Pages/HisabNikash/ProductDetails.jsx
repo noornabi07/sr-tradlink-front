@@ -47,9 +47,9 @@ const ProductDetails = () => {
   const presentStockWeight = (totalKroyWeight - totalSaleWeight);
   const avarageSellPerKgRate = (totalSalePrice / totalSaleWeight);
   const munafaDifferrent = (avarageSellPerKgRate - avarageKroyPerKgRate);
-  const netMunafa = (totalSaleWeight * munafaDifferrent);
-
-  console.log("Amar Lav Holo:", netMunafa);
+  const netMunafa = Number(
+  (totalSaleWeight * munafaDifferrent).toFixed(2)
+);
 
 
   // ===== SORT TRANSACTIONS BY DATE (LATEST FIRST, DD-MM-YYYY FORMAT) =====

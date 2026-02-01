@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHisabPage = location.pathname === "/hisabnikash";
 
-  const CORRECT_PASSWORD = "1234"; // 🔐 আপনি চাইলে পরিবর্তন করবেন
+  const CORRECT_PASSWORD = "3080"; // 🔐 আপনি চাইলে পরিবর্তন করবেন
+
+  const openHisabModal = () => {
+    if (isHisabPage) return; // already inside → do nothing
+    document.getElementById("hisab_modal").showModal();
+  };
 
   const handleSubmit = () => {
     if (password === CORRECT_PASSWORD) {
@@ -45,8 +52,17 @@ const Navbar = () => {
               <li><Link to="/#choose">পণ্যসমূহ</Link></li>
               <li><Link to="/#about">আমাদের সম্পর্কে</Link></li>
               <li><Link to="/#contact">যোগাযোগ</Link></li>
-              <li>
+              {/* <li>
                 <button onClick={() => document.getElementById("hisab_modal").showModal()}>
+                  হিসাবনিকাশ
+                </button>
+              </li> */}
+              <li>
+                <button
+                  onClick={openHisabModal}
+                  disabled={isHisabPage}
+                  className={isHisabPage ? "opacity-50 cursor-not-allowed" : ""}
+                >
                   হিসাবনিকাশ
                 </button>
               </li>
@@ -72,8 +88,17 @@ const Navbar = () => {
             </li>
             <li><a href="#about">আমাদের সম্পর্কে</a></li>
             <li><a href="#contact">যোগাযোগ</a></li>
-            <li>
+            {/* <li>
               <button onClick={() => document.getElementById("hisab_modal").showModal()}>
+                হিসাবনিকাশ
+              </button>
+            </li> */}
+            <li>
+              <button
+                onClick={openHisabModal}
+                disabled={isHisabPage}
+                className={isHisabPage ? "opacity-50 cursor-not-allowed" : ""}
+              >
                 হিসাবনিকাশ
               </button>
             </li>
