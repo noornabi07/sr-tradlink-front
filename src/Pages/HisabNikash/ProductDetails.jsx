@@ -3,6 +3,8 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -42,14 +44,67 @@ const ProductDetails = () => {
     totalSalePrice += t.dailysaleprice;
   });
 
-  // More calculation for benifit
-  const avarageKroyPerKgRate = (totalKroyPrice / totalKroyWeight);
   const presentStockWeight = (totalKroyWeight - totalSaleWeight);
-  const avarageSellPerKgRate = (totalSalePrice / totalSaleWeight);
-  const munafaDifferrent = (avarageSellPerKgRate - avarageKroyPerKgRate);
-  const netMunafa = Number(
-  (totalSaleWeight * munafaDifferrent).toFixed(2)
-);
+
+  // ===== CURRENT MONTH PROFIT =====
+  const now = new Date();
+
+  const currentMonthTransactions = (product.transactions || []).filter(t => {
+    const d = new Date(t.date);
+
+    return (
+      d.getMonth() === now.getMonth() &&
+      d.getFullYear() === now.getFullYear()
+    );
+  });
+
+  // Calculation
+  let monthBuyWeight = 0;
+  let monthBuyPrice = 0;
+  let monthSellWeight = 0;
+  let monthSellPrice = 0;
+
+  currentMonthTransactions.forEach(t => {
+    monthBuyWeight += t.kroyweight;
+    monthBuyPrice += t.kroyprice;
+    monthSellWeight += t.dailysaleweight;
+    monthSellPrice += t.dailysaleprice;
+  });
+
+  // ===== Determine Buy Rate =====
+  let monthAvgBuy;
+
+  // যদি current month এ ক্রয় থাকে
+  if (monthBuyWeight > 0) {
+    monthAvgBuy = monthBuyPrice / monthBuyWeight;
+  } else {
+    // যদি current month এ ক্রয় না থাকে, তাহলে last purchase এর rate নিন
+    const allTransactions = product.transactions || [];
+
+    // transactions গুলো date অনুযায়ী sort করে latest find করুন
+    const lastKroyTransaction = [...allTransactions]
+      .filter(t => t.kroyweight > 0)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+
+    if (lastKroyTransaction) {
+      monthAvgBuy = lastKroyTransaction.kroyprice / lastKroyTransaction.kroyweight;
+    } else {
+      monthAvgBuy = 0; // যদি কোনো previous buy transaction না থাকে
+    }
+  }
+
+  // Monthly sell rate
+  const monthAvgSell = monthSellWeight
+    ? monthSellPrice / monthSellWeight
+    : 0;
+
+  // Final monthly profit
+  const monthlyMunafa = monthSellWeight && monthAvgBuy
+    ? Number((monthSellWeight * (monthAvgSell - monthAvgBuy)).toFixed(2))
+    : 0;
+
+  // ---------------------------- Top to current month profit
+
 
 
   // ===== SORT TRANSACTIONS BY DATE (LATEST FIRST, DD-MM-YYYY FORMAT) =====
@@ -210,6 +265,108 @@ const ProductDetails = () => {
   };
 
 
+  // All Month find the munafa function 
+  // ===== Calculate Monthly Profits for all months =====
+
+  const calculateMonthlyProfits = () => {
+    const transactions = product.transactions || [];
+
+    // Group transactions by month & year
+    const monthlyData = {};
+
+    transactions.forEach(t => {
+      const d = new Date(t.date);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; // ex: 2026-02
+
+      if (!monthlyData[key]) {
+        monthlyData[key] = {
+          buyWeight: 0,
+          buyPrice: 0,
+          sellWeight: 0,
+          sellPrice: 0,
+        };
+      }
+
+      monthlyData[key].buyWeight += t.kroyweight;
+      monthlyData[key].buyPrice += t.kroyprice;
+      monthlyData[key].sellWeight += t.dailysaleweight;
+      monthlyData[key].sellPrice += t.dailysaleprice;
+    });
+
+    // Monthly profit calculation
+    const monthlyProfits = Object.entries(monthlyData)
+      .sort(([a], [b]) => new Date(a + "-01") - new Date(b + "-01")) // optional: sort ascending
+      .map(([key, data]) => {
+        let avgBuy;
+
+        if (data.buyWeight > 0) {
+          avgBuy = data.buyPrice / data.buyWeight;
+        } else {
+          // last purchase before this month
+          const allBefore = transactions
+            .filter(tr => new Date(tr.date) < new Date(key + "-01") && tr.kroyweight > 0)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          avgBuy = allBefore.length ? allBefore[0].kroyprice / allBefore[0].kroyweight : 0;
+        }
+
+        const avgSell = data.sellWeight ? data.sellPrice / data.sellWeight : 0;
+
+        const profit = data.sellWeight && avgBuy
+          ? Number((data.sellWeight * (avgSell - avgBuy)).toFixed(2))
+          : 0;
+
+        return {
+          month: key,
+          buyWeight: data.buyWeight,
+          buyPrice: data.buyPrice,     // ✅ fixed
+          sellWeight: data.sellWeight,
+          sellPrice: data.sellPrice,   // ✅ fixed
+          profit,
+        };
+      });
+
+    return monthlyProfits;
+  };
+
+
+
+  // Pdf download function 
+  const handleDownloadPDF = () => {
+    const monthlyProfits = calculateMonthlyProfits();
+
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth()
+
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    // doc.text(`${name} - Monthly Munafa Reports - Noornabi`, 14, 22, { align: "center" });
+    doc.text(`${name} - Monthly Munafa Reports - Noornabi`, pageWidth / 2, 22, { align: "center" });
+
+
+    const tableColumn = ["Year-Month", "Kroy Weight (kg)", "Total Kroy (Taka)", "Sell Weight (kg)", "Total Sell (Taka)", "Munafa (Taka)"];
+    const tableRows = monthlyProfits.map(mp => [
+      mp.month,
+      mp.buyWeight,
+      mp.buyPrice,
+      mp.sellWeight,
+      mp.sellPrice,
+      mp.profit
+    ]);
+
+    // Use the imported autoTable function
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      theme: "striped",
+      headStyles: { fillColor: [34, 197, 94] },
+    });
+
+    doc.save(`${name}-monthly-profit.pdf`);
+  };
+
   return (
     <div className="max-w-6xl mx-auto mt-24 px-4">
 
@@ -256,7 +413,16 @@ const ProductDetails = () => {
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
           <p className="text-gray-500 font-bold">সর্বমোট লভ্যাংশ</p>
-          <h2 className="text-3xl font-bold text-green-600 mt-2">৳ {netMunafa}</h2>
+          <h2 className="text-3xl font-bold text-green-600 mt-2">৳ {monthlyMunafa}</h2>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
+          <button
+            onClick={handleDownloadPDF}
+            className="px-6 py-3 rounded-2xl bg-blue-600 cursor-pointer text-white font-bold hover:scale-105 transition flex items-center gap-2"
+          >
+            📄 মাসিক রিপোর্ট ডাউনলোড করুন
+          </button>
         </div>
       </div>
 
