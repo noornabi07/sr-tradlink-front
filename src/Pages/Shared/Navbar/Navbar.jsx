@@ -4,15 +4,22 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [paikarPassword, setPaikarPassword] = useState("");
+  const [paikarError, setPaikarError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const isHisabPage = location.pathname === "/hisabnikash";
 
   const CORRECT_PASSWORD = "3080"; // 🔐 আপনি চাইলে পরিবর্তন করবেন
+  const CORRECT_PAIKAR_PASSWORD = "5050"; // চাইলে পরিবর্তন করবেন
 
   const openHisabModal = () => {
     if (isHisabPage) return; // already inside → do nothing
     document.getElementById("hisab_modal").showModal();
+  };
+
+  const openPaikarModal = () => {
+    document.getElementById("paikar_modal").showModal();
   };
 
   const handleSubmit = () => {
@@ -23,6 +30,17 @@ const Navbar = () => {
       navigate("/hisabnikash");
     } else {
       setError("ভুল পাসওয়ার্ড ❌");
+    }
+  };
+
+  const handlePaikarSubmit = () => {
+    if (paikarPassword === CORRECT_PAIKAR_PASSWORD) {
+      setPaikarError("");
+      setPaikarPassword("");
+      document.getElementById("paikar_modal").close();
+      navigate("/paikarhisab");
+    } else {
+      setPaikarError("ভুল পাসওয়ার্ড ❌");
     }
   };
 
@@ -52,11 +70,6 @@ const Navbar = () => {
               <li><Link to="/#choose">পণ্যসমূহ</Link></li>
               <li><Link to="/#about">আমাদের সম্পর্কে</Link></li>
               <li><Link to="/#contact">যোগাযোগ</Link></li>
-              {/* <li>
-                <button onClick={() => document.getElementById("hisab_modal").showModal()}>
-                  হিসাবনিকাশ
-                </button>
-              </li> */}
               <li>
                 <button
                   onClick={openHisabModal}
@@ -64,6 +77,11 @@ const Navbar = () => {
                   className={isHisabPage ? "opacity-50 cursor-not-allowed" : ""}
                 >
                   হিসাবনিকাশ
+                </button>
+              </li>
+              <li>
+                <button onClick={openPaikarModal}>
+                  পাইকার হিসাব
                 </button>
               </li>
             </ul>
@@ -88,11 +106,6 @@ const Navbar = () => {
             </li>
             <li><a href="#about">আমাদের সম্পর্কে</a></li>
             <li><a href="#contact">যোগাযোগ</a></li>
-            {/* <li>
-              <button onClick={() => document.getElementById("hisab_modal").showModal()}>
-                হিসাবনিকাশ
-              </button>
-            </li> */}
             <li>
               <button
                 onClick={openHisabModal}
@@ -102,11 +115,16 @@ const Navbar = () => {
                 হিসাবনিকাশ
               </button>
             </li>
+            <li>
+              <button onClick={openPaikarModal}>
+                পাইকার হিসাব
+              </button>
+            </li>
           </ul>
         </div>
       </div>
 
-      {/* 🔐 Modal */}
+      {/* 🔐 HisabNikash Modal */}
       <dialog id="hisab_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-xl text-center mb-4">
@@ -132,6 +150,50 @@ const Navbar = () => {
             <button className="btn btn-success text-white" onClick={handleSubmit}>
               প্রবেশ করুন
             </button>
+          </div>
+        </div>
+      </dialog>
+
+      {/* 🔐 Paikar Modal */}
+      <dialog id="paikar_modal" className="modal">
+        <div className="modal-box">
+
+          <h3 className="font-bold text-xl text-center mb-4">
+            পাইকার হিসাবে প্রবেশ
+          </h3>
+
+          <input
+            type="password"
+            placeholder="পাসওয়ার্ড লিখুন"
+            className="input input-bordered w-full"
+            value={paikarPassword}
+            onChange={(e) => setPaikarPassword(e.target.value)}
+          />
+
+          {paikarError && (
+            <p className="text-red-500 text-sm mt-2">
+              {paikarError}
+            </p>
+          )}
+
+          <div className="modal-action">
+
+            <button
+              className="btn"
+              onClick={() =>
+                document.getElementById("paikar_modal").close()
+              }
+            >
+              বাতিল
+            </button>
+
+            <button
+              className="btn btn-success text-white"
+              onClick={handlePaikarSubmit}
+            >
+              প্রবেশ করুন
+            </button>
+
           </div>
         </div>
       </dialog>

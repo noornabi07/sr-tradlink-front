@@ -5,6 +5,8 @@ import HisabNikash from "../Pages/HisabNikash/HisabNikash";
 import BakiDetails from "../Pages/HisabNikash/BakiDetails";
 import ProductDetails from "../Pages/HisabNikash/ProductDetails";
 import MalerHisab from "../Pages/HisabNikash/MalerHisab";
+import PaikarHisab from "../Pages/paikarHisab/paikarHisab";
+import PartyDetails from "../Pages/PaikarHisab/PartyDetails";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +29,18 @@ export const router = createBrowserRouter([
         path: "/product-details/:id",
         element: <ProductDetails />
       },
-      { path: "malerhisab", element: <MalerHisab /> },
+      {
+        path: "malerhisab",
+        element: <MalerHisab />
+      },
+      {
+        path: "/paikarhisab",
+        element: <PaikarHisab/>
+      },
+      {
+        path: "/party-hisab/:id",
+        element: <PartyDetails/>
+      }
     ]
   },
 ]);
