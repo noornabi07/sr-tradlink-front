@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlusCircle } from "react-icons/fi";
 import Swal from "sweetalert2";
 
 const MalerHisab = () => {
@@ -12,7 +12,7 @@ const MalerHisab = () => {
   const [pricePerKg, setPricePerKg] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 5; // 🔥 5 items per page
 
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -30,12 +30,8 @@ const MalerHisab = () => {
   useEffect(() => {
     fetch("http://localhost:3000/products")
       .then(res => res.json())
-      .then(data => {
-        setProducts(data);
-      });
+      .then(data => setProducts(data));
   }, []);
-
-  // Delete function
 
   const handleDeleteProduct = (id) => {
     Swal.fire({
@@ -49,20 +45,13 @@ const MalerHisab = () => {
       cancelButtonText: "না, বাতিল",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/products/${id}`, {
-          method: "DELETE",
-        })
+        fetch(`http://localhost:3000/products/${id}`, { method: "DELETE" })
           .then(res => res.json())
           .then(() => {
-            // 🔥 UI থেকে সাথে সাথে remove
-            setProducts(prev =>
-              prev.filter(product => product._id !== id)
-            );
-
+            setProducts(prev => prev.filter(product => product._id !== id));
             Swal.fire({
               icon: "success",
               title: "মুছে ফেলা হয়েছে ✅",
-              text: "পণ্যটি সফলভাবে ডিলিট করা হয়েছে",
               timer: 1500,
               showConfirmButton: false,
             });
@@ -77,7 +66,6 @@ const MalerHisab = () => {
       }
     });
   };
-
 
   return (
     <div>
@@ -121,7 +109,7 @@ const MalerHisab = () => {
         {paginatedList.length ? (
           paginatedList.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="flex flex-col md:flex-row items-center justify-between
               bg-base-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition"
             >
@@ -214,7 +202,6 @@ const MalerHisab = () => {
             </button>
 
             {/* Title */}
-
             <h2 className="text-2xl font-bold text-green-700 text-center">
               {editingProduct ? "পণ্য আপডেট করুন" : "নতুন পণ্য যোগ করুন"}
             </h2>
@@ -256,18 +243,12 @@ const MalerHisab = () => {
                   return;
                 }
 
-                // 🔵 UPDATE MODE
                 if (editingProduct) {
-                  const updatedProduct = {
-                    name,
-                    pricePerKg: Number(pricePerKg),
-                  };
-
+                  // 🔵 UPDATE
+                  const updatedProduct = { name, pricePerKg: Number(pricePerKg) };
                   fetch(`http://localhost:3000/products/${editingProduct._id}`, {
                     method: "PUT",
-                    headers: {
-                      "content-type": "application/json",
-                    },
+                    headers: { "content-type": "application/json" },
                     body: JSON.stringify(updatedProduct),
                   })
                     .then(res => res.json())
@@ -279,7 +260,6 @@ const MalerHisab = () => {
                             : p
                         )
                       );
-
                       Swal.fire({
                         icon: "success",
                         title: "পণ্য আপডেট হয়েছে 🎉",
@@ -287,16 +267,9 @@ const MalerHisab = () => {
                         showConfirmButton: false,
                       });
                     });
-
                 } else {
-                  // 🟢 ADD MODE
-                  const newProduct = {
-                    id: Date.now(),
-                    name,
-                    pricePerKg: Number(pricePerKg),
-                    transactions: [],
-                  };
-
+                  // 🟢 ADD
+                  const newProduct = { name, pricePerKg: Number(pricePerKg) };
                   fetch("http://localhost:3000/products", {
                     method: "POST",
                     headers: { "content-type": "application/json" },
@@ -308,7 +281,6 @@ const MalerHisab = () => {
                         ...prev,
                         { ...newProduct, _id: data.insertedId },
                       ]);
-
                       Swal.fire({
                         icon: "success",
                         title: "নতুন পণ্য যোগ হয়েছে 🎉",
@@ -324,8 +296,6 @@ const MalerHisab = () => {
                 setEditingProduct(null);
                 setIsModalOpen(false);
               }}
-
-
               className="w-full mt-6 py-3 rounded-xl
                 bg-gradient-to-r from-green-600 to-emerald-500
                 text-white font-bold text-lg
@@ -333,20 +303,20 @@ const MalerHisab = () => {
             >
               সংরক্ষণ করুন
             </button>
-          </div>
 
-          {/* Animation */}
-          <style>
-            {`
-              @keyframes scaleIn {
-                from { opacity: 0; transform: scale(0.9); }
-                to { opacity: 1; transform: scale(1); }
-              }
-              .animate-scaleIn {
-                animation: scaleIn 0.25s ease-out;
-              }
-            `}
-          </style>
+            {/* Animation */}
+            <style>
+              {`
+                @keyframes scaleIn {
+                  from { opacity: 0; transform: scale(0.9); }
+                  to { opacity: 1; transform: scale(1); }
+                }
+                .animate-scaleIn {
+                  animation: scaleIn 0.25s ease-out;
+                }
+              `}
+            </style>
+          </div>
         </div>
       )}
     </div>
