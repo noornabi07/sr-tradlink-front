@@ -412,7 +412,7 @@ const ProductDetails = () => {
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-300 text-center">
-          <p className="text-gray-500 font-bold">সর্বমোট লভ্যাংশ</p>
+          <p className="text-gray-500 font-bold">এই মাসের লভ্যাংশ</p>
           <h2 className="text-3xl font-bold text-green-600 mt-2">৳ {monthlyMunafa}</h2>
         </div>
 

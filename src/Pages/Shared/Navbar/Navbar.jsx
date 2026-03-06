@@ -9,6 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHisabPage = location.pathname === "/hisabnikash";
+  const isPaikerPage = location.pathname === "/paikarhisab";
 
   const CORRECT_PASSWORD = "3080"; // 🔐 আপনি চাইলে পরিবর্তন করবেন
   const CORRECT_PAIKAR_PASSWORD = "5050"; // চাইলে পরিবর্তন করবেন
@@ -80,7 +81,11 @@ const Navbar = () => {
                 </button>
               </li>
               <li>
-                <button onClick={openPaikarModal}>
+                <button 
+                onClick={openPaikarModal}
+                disabled={isPaikerPage}
+                className={isPaikerPage ? "opacity-50 cursor-not-allowed" : ""}
+                >
                   পাইকার হিসাব
                 </button>
               </li>
@@ -116,7 +121,11 @@ const Navbar = () => {
               </button>
             </li>
             <li>
-              <button onClick={openPaikarModal}>
+              <button 
+              onClick={openPaikarModal}
+              disabled={isPaikerPage}
+              className={isPaikerPage ? "opacity-50 cursor-not-allowed" : ""}
+              >
                 পাইকার হিসাব
               </button>
             </li>
