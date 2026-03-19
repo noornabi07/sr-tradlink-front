@@ -41,7 +41,6 @@ const PaikerHisab = () => {
 
       {/* ===== Page Content ===== */}
       <div className="mt-16 max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-10 text-center">
-        {/* {activeTab === "noornabirasel" && <NoornabiRasel/>} */}
         {activeTab === "noornabirasel" && (
           <NoornabiRasel setActiveTab={setActiveTab} />
         )}

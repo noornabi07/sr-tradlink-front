@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle } from "react-icons/fi";
 import Swal from "sweetalert2";
+import calculateMonthlyMunafa from "../Shared/Navbar/utils/calculateMonthlyProfit";
 
-const MalerHisab = () => {
+const MalerHisab = ({ setTotalMunafa }) => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
 
@@ -32,6 +33,15 @@ const MalerHisab = () => {
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);
+
+  const totalMonthlyMunafa = products.reduce((total, product) => {
+  const munafa = calculateMonthlyMunafa(product.transactions);
+  return total + munafa;
+}, 0);
+
+useEffect(() => {
+  setTotalMunafa(totalMonthlyMunafa);
+}, [totalMonthlyMunafa]);
 
   const handleDeleteProduct = (id) => {
     Swal.fire({

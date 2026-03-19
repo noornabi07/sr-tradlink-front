@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const DailyHisab = () => {
+const DailyHisab = ({ totalMunafa }) => {
 
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,12 +17,15 @@ const DailyHisab = () => {
     const [uttholon, setUttholon] = useState("");
     const [baki, setBaki] = useState("");
     const [bitoron, setBitoron] = useState("");
+    const [bitoronDes, setBitoronDes] = useState("");
+    const [khoroch, setKhoroch] = useState("");
 
     const [searchDate, setSearchDate] = useState("");
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
 
     const API = "http://localhost:3000/dailytransactions";
 
@@ -72,6 +75,7 @@ const DailyHisab = () => {
     const totalUttholon = monthFiltered.reduce((s, t) => s + Number(t.uttholon), 0);
     const totalBaki = monthFiltered.reduce((s, t) => s + Number(t.baki), 0);
     const totalBitoron = monthFiltered.reduce((s, t) => s + Number(t.bitoron), 0);
+    const totalKhoroch = monthFiltered.reduce((s, t) => s + Number(t.khoroch || 0), 0);
 
 
     // ================= Pagination =================
@@ -96,9 +100,14 @@ const DailyHisab = () => {
         setUttholon("");
         setBaki("");
         setBitoron("");
+        setBitoronDes("");
+        setKhoroch("");
         setEditing(null);
         setIsModalOpen(false);
     };
+
+    // ================ Net Munafa ===============
+    const NetMonthlyProfit = (totalMunafa - totalKhoroch);
 
 
     // ================= Add =================
@@ -115,7 +124,7 @@ const DailyHisab = () => {
             await fetch(API, {
                 method: "POST",
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ date, bikri, uttholon, baki, bitoron })
+                body: JSON.stringify({ date, bikri, uttholon, baki, bitoron, bitoronDes, khoroch })
             });
 
             await fetchTransactions();
@@ -145,7 +154,7 @@ const DailyHisab = () => {
             await fetch(`${API}/${editing._id}`, {
                 method: "PUT",
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ date, bikri, uttholon, baki, bitoron })
+                body: JSON.stringify({ date, bikri, uttholon, baki, bitoron, bitoronDes, khoroch })
             });
 
             await fetchTransactions();
@@ -208,16 +217,18 @@ const DailyHisab = () => {
         doc.text(`Total Uttholon: ${totalUttholon}`, 14, 50);
         doc.text(`Total Baki: ${totalBaki}`, 14, 60);
         doc.text(`Total Bitoron: ${totalBitoron}`, 14, 70);
+        doc.text(`Total Khoroch: ${totalKhoroch}`, 14, 80);
 
         autoTable(doc, {
             startY: 80,
-            head: [["Tarikh", "Bikri", "Uttholon", "Baki", "Bitoron"]],
+            head: [["Tarikh", "Bikri", "Uttholon", "Baki", "Bitoron", "Khoroch"]],
             body: monthFiltered.map(t => [
                 t.date,
                 t.bikri,
                 t.uttholon,
                 t.baki,
-                t.bitoron
+                t.bitoron,
+                t.khoroch
             ])
         });
 
@@ -255,16 +266,16 @@ const DailyHisab = () => {
 
                 <button
                     onClick={handleDownloadPDF}
-                    className="px-5 py-2 bg-blue-600 text-white rounded-xl"
+                    className="px-5 py-2 bg-blue-600 text-white cursor-pointer rounded-xl"
                 >
-                    PDF
+                    এই মাসের ফলাফল ডাউনলোড করুন
                 </button>
 
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 px-5 py-2 bg-green-600 text-white rounded-xl"
+                    className="flex items-center gap-2 px-5 cursor-pointer py-2 bg-green-600 text-white rounded-xl"
                 >
-                    <FiPlusCircle /> Add
+                    <FiPlusCircle /> লেনদেন যোগ করুন
                 </button>
 
             </div>
@@ -272,26 +283,36 @@ const DailyHisab = () => {
 
             {/* Summary Cards */}
 
-            <div className="grid md:grid-cols-4 gap-6 mb-10">
+            <div className="grid md:grid-cols-3 gap-6 mb-10">
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মোট বিক্রি</p>
+                    <p>মাসের মোট বিক্রি</p>
                     <h2 className="text-3xl font-bold text-green-600">৳ {totalBikri}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>উত্তোলন</p>
+                    <p>মাসের মোট উত্তোলন</p>
                     <h2 className="text-3xl font-bold text-blue-600">৳ {totalUttholon}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মোট বাকি</p>
+                    <p>মাসের মোট বাকি</p>
                     <h2 className="text-3xl font-bold text-red-600">৳ {totalBaki}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>বিতরণ</p>
+                    <p>মাসের মোট বিতরণ</p>
                     <h2 className="text-3xl font-bold text-purple-600">৳ {totalBitoron}</h2>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow text-center">
+                    <p>মাসের মোট খরচ</p>
+                    <h2 className="text-3xl font-bold text-orange-600">৳ {totalKhoroch}</h2>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow text-center">
+                    <p>মাসের মোট মুনাফা</p>
+                    <h2 className="text-3xl font-bold text-green-600">৳ {NetMonthlyProfit}</h2>
                 </div>
 
             </div>
@@ -310,14 +331,16 @@ const DailyHisab = () => {
                             <th>উত্তোলন</th>
                             <th>বাকি</th>
                             <th>বিতরণ</th>
-                            <th>Action</th>
+                            <th>বিতরণের বিবরণ</th>
+                            <th>খরচ</th>
+                            <th>কার্যকলাপ</th>
                         </tr>
                     </thead>
 
                     <tbody>
 
                         {loading ? (
-                            <tr><td colSpan="6">Loading...</td></tr>
+                            <tr><td colSpan="7">Loading...</td></tr>
                         ) : currentTransactions.map(t => (
                             <tr key={t._id}>
                                 <td>{t.date}</td>
@@ -325,6 +348,8 @@ const DailyHisab = () => {
                                 <td>{t.uttholon}</td>
                                 <td>{t.baki}</td>
                                 <td>{t.bitoron}</td>
+                                <td>{t.bitoronDes}</td>
+                                <td>{t.khoroch}</td>
 
                                 <td className="flex gap-2 justify-center">
 
@@ -339,6 +364,8 @@ const DailyHisab = () => {
                                             setUttholon(t.uttholon);
                                             setBaki(t.baki);
                                             setBitoron(t.bitoron);
+                                            setBitoronDes(t.bitoronDes);
+                                            setKhoroch(t.khoroch);
 
                                             setIsModalOpen(true);
 
@@ -428,13 +455,17 @@ const DailyHisab = () => {
 
                             <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
 
-                            <input type="number" placeholder="Bikri" value={bikri} onChange={e => setBikri(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বিক্রয়" value={bikri} onChange={e => setBikri(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
 
-                            <input type="number" placeholder="Uttholon" value={uttholon} onChange={e => setUttholon(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট উত্তোলন" value={uttholon} onChange={e => setUttholon(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
 
-                            <input type="number" placeholder="Baki" value={baki} onChange={e => setBaki(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বাকি " value={baki} onChange={e => setBaki(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
 
-                            <input type="number" placeholder="Bitoron" value={bitoron} onChange={e => setBitoron(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বিতরণ" value={bitoron} onChange={e => setBitoron(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+
+                            <input type="text" placeholder="বিতরণ নোট" value={bitoronDes} onChange={e => setBitoronDes(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+
+                            <input type="number" placeholder="মোট খরচ" value={khoroch} onChange={e => setKhoroch(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
 
                         </div>
 

@@ -8,6 +8,7 @@ const HisabNikash = () => {
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get("tab") || "baki";
   const [activeTab, setActiveTab] = useState(defaultTab);
+  const [totalMunafa, setTotalMunafa] = useState(0);
   
 
   return (
@@ -56,9 +57,9 @@ const HisabNikash = () => {
 
       {/* ===== Page Content ===== */}
       <div className="mt-16 max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-10 text-center">
-        {activeTab === "maler" && <MalerHisab />}
+        {activeTab === "maler" && <MalerHisab setTotalMunafa={setTotalMunafa} />}
         {activeTab === "baki" && <BakiHisab />}
-        {activeTab === "daily" && <DailyHisab/>}
+        {activeTab === "daily" && <DailyHisab totalMunafa={totalMunafa} />}
       </div>
     </div>
   );

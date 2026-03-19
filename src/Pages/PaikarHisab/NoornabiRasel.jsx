@@ -15,6 +15,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
     const [date, setDate] = useState("");
     const [motKroy, setMotKroy] = useState("");
     const [cashJoma, setCashJoma] = useState("");
+    const [description, setDescription] = useState("");
 
     // ================= Pagination =================
     const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +52,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
         setDate("");
         setMotKroy("");
         setCashJoma("");
+        setDescription("");
         setEditing(null);
         setIsModalOpen(false);
     };
@@ -66,7 +68,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
             const res = await fetch("http://localhost:3000/dokantransactions", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ date, motKroy, cashJoma })
+                body: JSON.stringify({ date, motKroy, cashJoma, description })
             });
 
             if (!res.ok) throw new Error();
@@ -85,12 +87,12 @@ const NoornabiRasel = ({ setActiveTab }) => {
             const res = await fetch(`http://localhost:3000/dokantransactions/${editing._id}`, {
                 method: "PUT",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ date, motKroy, cashJoma })
+                body: JSON.stringify({ date, motKroy, cashJoma, description })
             });
             if (!res.ok) throw new Error();
             await fetchTransactions();
             resetForm();
-            Swal.fire({ icon: "success", title: "আপডেট হয়েছে ✅", timer: 1200, showConfirmButton: false });
+            Swal.fire({ icon: "success", title: "আপডেট হয়েছে ✅", timer: 1200, showConfirmButton: false });
         } catch {
             Swal.fire("Update Failed ❌");
         }
@@ -211,6 +213,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
                                 <th>তারিখ</th>
                                 <th>মোট ক্রয়</th>
                                 <th>ক্যাশ জমা</th>
+                                <th>বিবরণ</th>
                                 <th>তথ্য কার্যকলাপ</th>
                             </tr>
                         </thead>
@@ -220,8 +223,9 @@ const NoornabiRasel = ({ setActiveTab }) => {
                                     <td>{t.date}</td>
                                     <td>৳ {t.motKroy}</td>
                                     <td>৳ {t.cashJoma}</td>
+                                    <td>{t.description || "N/A"}</td>
                                     <td className="flex gap-2 justify-center">
-                                        <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={() => { setEditing(t); setDate(t.date); setMotKroy(t.motKroy); setCashJoma(t.cashJoma); setIsModalOpen(true); }}>আপডেট</button>
+                                        <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={() => { setEditing(t); setDate(t.date); setMotKroy(t.motKroy); setCashJoma(t.cashJoma); setDescription(t.description || ""); setIsModalOpen(true); }}>আপডেট</button>
                                         <button className="px-3 py-1 bg-red-600 text-white rounded" onClick={() => handleDelete(t._id)}>ডিলিট</button>
                                     </td>
                                 </tr>
@@ -252,6 +256,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
                             <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
                             <input type="number" placeholder="মোট ক্রয়" value={motKroy} onChange={e => setMotKroy(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
                             <input type="number" placeholder="ক্যাশ জমা" value={cashJoma} onChange={e => setCashJoma(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
+                            <input type="text" placeholder="বিবরণ (ঐচ্ছিক)" value={description} onChange={e => setDescription(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
                         </div>
                         <button onClick={editing ? handleUpdate : handleAdd} className="w-full mt-6 py-3 rounded-xl bg-green-600 text-white font-bold">সংরক্ষণ</button>
                     </div>

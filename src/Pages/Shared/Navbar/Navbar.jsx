@@ -8,8 +8,8 @@ const Navbar = () => {
   const [paikarError, setPaikarError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const isHisabPage = location.pathname === "/hisabnikash";
-  const isPaikerPage = location.pathname === "/paikarhisab";
+  const isHisabPage = location.pathname === "/hisabnikash" || location.pathname.startsWith("/product-details/") || location.pathname.startsWith("/baki-hisab/");
+  const isPaikerPage = location.pathname === "/paikarhisab" || location.pathname.startsWith("/party-hisab/");
 
   const CORRECT_PASSWORD = "3080"; // 🔐 আপনি চাইলে পরিবর্তন করবেন
   const CORRECT_PAIKAR_PASSWORD = "5050"; // চাইলে পরিবর্তন করবেন

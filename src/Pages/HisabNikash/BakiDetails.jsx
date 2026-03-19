@@ -19,6 +19,7 @@ const BakiDetails = () => {
     const [kroy, setKroy] = useState("");
     const [joma, setJoma] = useState("");
     const [baki, setBaki] = useState("");
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
         fetch(`http://localhost:3000/clients/${id}`)
@@ -51,10 +52,9 @@ const BakiDetails = () => {
             date,
             kroy: Number(kroy),
             joma: Number(joma),
-            baki: Number(baki)
+            baki: Number(baki),
+            description: description || ""
         };
-
-        console.log("New Transaction:", newTransaction);
 
         fetch(`http://localhost:3000/clients/${id}/transactions`, {
             method: "POST",
@@ -87,6 +87,7 @@ const BakiDetails = () => {
             kroy: Number(kroy),
             joma: Number(joma),
             baki: Number(baki),
+            description: description || ""
         };
 
         fetch(`http://localhost:3000/clients/${id}/transactions/${editingTransaction._id}`, {
@@ -239,6 +240,7 @@ const BakiDetails = () => {
                                 <th>ক্রয়ঃ</th>
                                 <th>জমাঃ</th>
                                 <th>বাকি</th>
+                                <th>বিবরণ</th>
                                 <th>তথ্য কার্যকলাপ</th>
                             </tr>
                         </thead>
@@ -252,6 +254,7 @@ const BakiDetails = () => {
                                         <td>৳ {t.kroy}</td>
                                         <td>৳ {t.joma}</td>
                                         <td>৳ {t.baki}</td>
+                                        <td>{t.description || "কোনো বিবরণ নেই"}</td>
                                         {/* Actions Buttons */}
                                         <td className="flex justify-center gap-2">
                                             <button
@@ -262,6 +265,7 @@ const BakiDetails = () => {
                                                     setKroy(t.kroy);
                                                     setJoma(t.joma);
                                                     setBaki(t.baki);
+                                                    setDescription(t.description || "");
                                                     setIsModalOpen(true);
                                                 }}
                                             >
@@ -333,6 +337,14 @@ const BakiDetails = () => {
                                 onChange={(e) => setBaki(e.target.value)}
                                 className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
                             />
+                            <input
+                                type="text"
+                                placeholder="বিবরণ (ঐচ্ছিক)"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+
                         </div>
 
                         {/* Save Button */}
