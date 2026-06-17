@@ -20,7 +20,7 @@ const BakiHisab = () => {
   const [number, setNumber] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // Filtered list based on search
   const filteredList = clients.filter((item) =>
