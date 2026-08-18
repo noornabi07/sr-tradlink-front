@@ -23,7 +23,7 @@ const BakiHisab = () => {
   const [number, setNumber] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // Filtered list based on search
   const filteredList = clients.filter((item) =>
@@ -156,7 +156,7 @@ const BakiHisab = () => {
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(16);
 
-    doc.text("Baki Hisab List", pageWidth / 2, 42, {
+    doc.text("Baki Name List", pageWidth / 2, 42, {
       align: "center",
     });
 

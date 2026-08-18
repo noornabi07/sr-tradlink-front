@@ -6,10 +6,9 @@ import autoTable from "jspdf-autotable";
 
 const DailyHisab = ({ totalMunafa }) => {
 
-    console.log({totalMunafa});
-
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState([]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editing, setEditing] = useState(null);
@@ -27,6 +26,98 @@ const DailyHisab = ({ totalMunafa }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    useEffect(() => {
+        fetch("http://localhost:3000/products")
+            .then(res => res.json())
+            .then(data => setProducts(data))
+            .catch(() => {
+                Swal.fire("Products ডাটা লোড হয়নি ❌");
+            });
+    }, []);
+
+    const calculateMonthlyProductData = (product) => {
+        const transactions = product.transactions || [];
+
+        // Selected month-এর transactions
+        const monthTransactions = transactions.filter((t) => {
+            return t.date?.startsWith(selectedMonth);
+        });
+
+        // ================= Purchase =================
+
+        let buyWeight = 0;
+        let buyPrice = 0;
+
+        monthTransactions.forEach((t) => {
+            buyWeight += Number(t.kroyweight || 0);
+            buyPrice += Number(t.kroyprice || 0);
+        });
+
+        // ================= Sale =================
+
+        let saleWeight = 0;
+        let salePrice = 0;
+
+        monthTransactions.forEach((t) => {
+            saleWeight += Number(t.dailysaleweight || 0);
+            salePrice += Number(t.dailysaleprice || 0);
+        });
+
+        // ================= Buy Rate =================
+
+        let averageBuyRate = 0;
+
+        // এই মাসে purchase থাকলে
+        if (buyWeight > 0) {
+            averageBuyRate = buyPrice / buyWeight;
+        } else {
+            // এই মাসে purchase না থাকলে
+            // আগের/latest purchase transaction খুঁজবে
+
+            const lastPurchase = [...transactions]
+                .filter((t) => Number(t.kroyweight || 0) > 0)
+                .sort(
+                    (a, b) =>
+                        new Date(b.date) - new Date(a.date)
+                )[0];
+
+            if (lastPurchase) {
+                averageBuyRate =
+                    Number(lastPurchase.kroyprice || 0) /
+                    Number(lastPurchase.kroyweight || 1);
+            }
+        }
+
+        // ================= Sell Rate =================
+
+        const averageSellRate =
+            saleWeight > 0
+                ? salePrice / saleWeight
+                : 0;
+
+        // ================= Profit / Loss =================
+
+        const profit =
+            saleWeight > 0 && averageBuyRate > 0
+                ? saleWeight * (averageSellRate - averageBuyRate)
+                : 0;
+
+        return {
+            saleWeight: Number(saleWeight.toFixed(2)),
+            salePrice: Number(salePrice.toFixed(2)),
+            buyRate: Number(averageBuyRate.toFixed(2)),
+            profit: Number(profit.toFixed(2)),
+        };
+    };
+
+    const totalMonthlyProfit = products.reduce((total, product) => {
+
+        const report = calculateMonthlyProductData(product);
+
+        return total + Number(report.profit || 0);
+
+    }, 0);
 
 
     const API = "http://localhost:3000/dailytransactions";
@@ -62,8 +153,6 @@ const DailyHisab = ({ totalMunafa }) => {
     const monthFiltered = transactions.filter(t =>
         t.date?.startsWith(selectedMonth)
     );
-
-
     // ================= Search Date =================
 
     const filteredTransactions = searchDate
@@ -206,35 +295,244 @@ const DailyHisab = ({ totalMunafa }) => {
 
     // ================= PDF =================
 
+    // ================= PDF Download =================
+
     const handleDownloadPDF = () => {
 
         const doc = new jsPDF();
 
-        doc.setFontSize(18);
-        doc.text("Daily Hisab Report", 14, 20);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
 
-        doc.text(`Month: ${selectedMonth}`, 14, 30);
+        // =========================
+        // Header
+        // =========================
 
-        doc.text(`Total Bikri: ${totalBikri}`, 14, 40);
-        doc.text(`Total Uttholon: ${totalUttholon}`, 14, 50);
-        doc.text(`Total Baki: ${totalBaki}`, 14, 60);
-        doc.text(`Total Bitoron: ${totalBitoron}`, 14, 70);
-        doc.text(`Total Khoroch: ${totalKhoroch}`, 14, 80);
+        doc.setFillColor(22, 163, 74);
+        doc.rect(0, 0, pageWidth, 30, "F");
 
-        autoTable(doc, {
-            startY: 80,
-            head: [["Tarikh", "Bikri", "Uttholon", "Baki", "Bitoron", "Khoroch"]],
-            body: monthFiltered.map(t => [
-                t.date,
-                t.bikri,
-                t.uttholon,
-                t.baki,
-                t.bitoron,
-                t.khoroch
-            ])
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+
+        doc.text("SR Tradelink By Noornabi", pageWidth / 2, 19, {
+            align: "center",
         });
 
-        doc.save("daily-hisab.pdf");
+
+        // =========================
+        // Title
+        // =========================
+
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(16);
+
+        doc.text(
+            "Monthly Calculation Report",
+            pageWidth / 2,
+            42,
+            {
+                align: "center",
+            }
+        );
+
+
+        // =========================
+        // Month
+        // =========================
+
+        doc.setFontSize(11);
+
+        doc.text(
+            `Month: ${selectedMonth}`,
+            pageWidth / 2,
+            49,
+            {
+                align: "center",
+            }
+        );
+
+
+        // =========================
+        // Final Net Munafa
+        // =========================
+
+        const finalNetMunafa =
+            Number(totalMonthlyProfit || 0) -
+            Number(totalKhoroch || 0);
+
+
+        // =========================
+        // Summary Table Data
+        // =========================
+
+        const summaryData = [
+
+            [
+                "1",
+                "Monthly Total Bikri",
+                `Tk ${Number(totalBikri || 0).toFixed(2)}`
+            ],
+
+            [
+                "2",
+                "Monthly Total Uttholon",
+                `Tk ${Number(totalUttholon || 0).toFixed(2)}`
+            ],
+
+            [
+                "3",
+                "Monthly Total Baki",
+                `Tk ${Number(totalBaki || 0).toFixed(2)}`
+            ],
+
+            [
+                "4",
+                "Monthly Total Bitoron",
+                `Tk ${Number(totalBitoron || 0).toFixed(2)}`
+            ],
+
+            [
+                "5",
+                "Monthly Total Khoroch",
+                `Tk ${Number(totalKhoroch || 0).toFixed(2)}`
+            ],
+
+            [
+                "6",
+                "Monthly Total Profit",
+                `Tk ${Number(totalMonthlyProfit || 0).toFixed(2)}`
+            ],
+
+        ];
+
+
+        // =========================
+        // Summary Table
+        // =========================
+
+        autoTable(doc, {
+
+            startY: 58,
+
+            head: [[
+                "SL",
+                "Calculation Summary",
+                "Quantity",
+            ]],
+
+            body: summaryData,
+
+            theme: "grid",
+
+            headStyles: {
+                fillColor: [22, 163, 74],
+                textColor: [255, 255, 255],
+                halign: "center",
+                valign: "middle",
+                fontStyle: "bold",
+            },
+
+            bodyStyles: {
+                textColor: [0, 0, 0],
+            },
+
+            styles: {
+                fontSize: 11,
+                halign: "center",
+                valign: "middle",
+                cellPadding: 4,
+            },
+
+            columnStyles: {
+
+                // SL
+                0: {
+                    cellWidth: 20,
+                },
+
+                // Description
+                1: {
+                    cellWidth: 95,
+                    halign: "left",
+                },
+
+                // Amount
+                2: {
+                    cellWidth: 65,
+                    halign: "right",
+                },
+
+            },
+
+            margin: {
+                left: 15,
+                right: 15,
+            },
+
+        });
+
+
+        // =========================
+        // Final Net Munafa
+        // =========================
+
+        const finalY = doc.lastAutoTable.finalY + 18;
+
+        doc.setFontSize(14);
+
+        if (finalNetMunafa >= 0) {
+
+            doc.setTextColor(22, 163, 74);
+
+            doc.text(
+                `Final Net Munafa: Tk ${finalNetMunafa.toFixed(2)}`,
+                pageWidth - 10,
+                finalY,
+                {
+                    align: "right",
+                }
+            );
+
+        } else {
+
+            doc.setTextColor(220, 38, 38);
+
+            doc.text(
+                `Final Net Loss: Tk ${Math.abs(finalNetMunafa).toFixed(2)}`,
+                pageWidth - 10,
+                finalY,
+                {
+                    align: "right",
+                }
+            );
+
+        }
+
+
+        // =========================
+        // Footer
+        // =========================
+
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+
+        doc.text(
+            "Printed by Noornabi",
+            pageWidth / 2,
+            pageHeight - 10,
+            {
+                align: "center",
+            }
+        );
+
+
+        // =========================
+        // Download
+        // =========================
+
+        doc.save(
+            `SR-Tradelink-Daily-Hisab-${selectedMonth}.pdf`
+        );
 
     };
 
@@ -314,7 +612,7 @@ const DailyHisab = ({ totalMunafa }) => {
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
                     <p>মাসের মোট মুনাফা</p>
-                    <h2 className="text-3xl font-bold text-green-600">৳ {NetMonthlyProfit}</h2>
+                    <h2 className="text-3xl font-bold text-green-600">৳ {totalMonthlyProfit}</h2>
                 </div>
 
             </div>

@@ -49,6 +49,84 @@ const MalerHisab = ({ setTotalMunafa }) => {
     setTotalMunafa(totalMonthlyMunafa);
   }, [totalMonthlyMunafa]);
 
+
+  // ================= Monthly Product Report =================
+
+  const calculateMonthlyProductData = (product) => {
+    const transactions = product.transactions || [];
+
+    // Selected month-এর transactions
+    const monthTransactions = transactions.filter((t) => {
+      return t.date?.startsWith(selectedMonth);
+    });
+
+    // ================= Purchase =================
+
+    let buyWeight = 0;
+    let buyPrice = 0;
+
+    monthTransactions.forEach((t) => {
+      buyWeight += Number(t.kroyweight || 0);
+      buyPrice += Number(t.kroyprice || 0);
+    });
+
+    // ================= Sale =================
+
+    let saleWeight = 0;
+    let salePrice = 0;
+
+    monthTransactions.forEach((t) => {
+      saleWeight += Number(t.dailysaleweight || 0);
+      salePrice += Number(t.dailysaleprice || 0);
+    });
+
+    // ================= Buy Rate =================
+
+    let averageBuyRate = 0;
+
+    // এই মাসে purchase থাকলে
+    if (buyWeight > 0) {
+      averageBuyRate = buyPrice / buyWeight;
+    } else {
+      // এই মাসে purchase না থাকলে
+      // আগের/latest purchase transaction খুঁজবে
+
+      const lastPurchase = [...transactions]
+        .filter((t) => Number(t.kroyweight || 0) > 0)
+        .sort(
+          (a, b) =>
+            new Date(b.date) - new Date(a.date)
+        )[0];
+
+      if (lastPurchase) {
+        averageBuyRate =
+          Number(lastPurchase.kroyprice || 0) /
+          Number(lastPurchase.kroyweight || 1);
+      }
+    }
+
+    // ================= Sell Rate =================
+
+    const averageSellRate =
+      saleWeight > 0
+        ? salePrice / saleWeight
+        : 0;
+
+    // ================= Profit / Loss =================
+
+    const profit =
+      saleWeight > 0 && averageBuyRate > 0
+        ? saleWeight * (averageSellRate - averageBuyRate)
+        : 0;
+
+    return {
+      saleWeight: Number(saleWeight.toFixed(2)),
+      salePrice: Number(salePrice.toFixed(2)),
+      buyRate: Number(averageBuyRate.toFixed(2)),
+      profit: Number(profit.toFixed(2)),
+    };
+  };
+
   const handleDeleteProduct = (id) => {
     Swal.fire({
       title: "আপনি নিশ্চিত?",
@@ -86,54 +164,225 @@ const MalerHisab = ({ setTotalMunafa }) => {
 
   // ================= PDF Download =================
 
+  // ================= Monthly Product Profit PDF =================
+
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
 
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-    doc.setFontSize(20);
-    doc.setFont("helvetica", "bold");
+    // =========================
+    // Header
+    // =========================
+
+    doc.setFillColor(22, 163, 74);
+    doc.rect(0, 0, pageWidth, 30, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+
+    doc.text("SR Tradelink By Noornabi", pageWidth / 2, 19, {
+      align: "center",
+    });
+
+    // =========================
+    // Title
+    // =========================
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(16);
 
     doc.text(
       "Monthly Product Profit Report",
       pageWidth / 2,
-      20,
-      { align: "center" }
+      42,
+      {
+        align: "center",
+      }
     );
+
+    // =========================
+    // Month
+    // =========================
 
     doc.setFontSize(11);
-    doc.setFont("helvetica", "normal");
 
     doc.text(
-      `Month: ${new Date().toLocaleString("en-US", {
-        month: "long",
-        year: "numeric",
-      })}`,
+      `Month: ${selectedMonth}`,
       pageWidth / 2,
-      28,
-      { align: "center" }
+      49,
+      {
+        align: "center",
+      }
     );
 
-    // আপাতত শুধু Product List দেখাবে
-    const tableRows = products.map((product, index) => [
-      index + 1,
-      product.name,
-      `${product.pricePerKg} Tk/kg`,
-    ]);
+    // =========================
+    // Prepare Data
+    // =========================
+
+    const tableData = products.map((product, index) => {
+
+      const report = calculateMonthlyProductData(product);
+
+      return [
+        index + 1,
+        product.name || "",
+        `${report.saleWeight} kg`,
+        `Tk ${report.salePrice}`,
+        `Tk ${report.buyRate}/kg`,
+        `Tk ${report.profit}`,
+      ];
+    });
+
+    // =========================
+    // Table
+    // =========================
 
     autoTable(doc, {
-      startY: 38,
-      head: [
-        ["ক্রমিক", "পণ্যের নাম", "বর্তমান দাম"]
-      ],
-      body: tableRows,
-      theme: "striped",
+
+      startY: 58,
+
+      head: [[
+        "SL",
+        "Product Name",
+        "Sale Weight",
+        "Sale Amount",
+        "Purchase Rate",
+        "Profit / Loss",
+      ]],
+
+      body: tableData,
+
+      // 🔥 আগের Baki PDF-এর মতো border
+      theme: "grid",
+
       headStyles: {
-        fillColor: [34, 197, 94],
+        fillColor: [22, 163, 74],
+        textColor: [255, 255, 255],
+        halign: "center",
+        valign: "middle",
+        fontStyle: "bold",
+      },
+
+      bodyStyles: {
+        textColor: [0, 0, 0],
+      },
+
+      styles: {
+        fontSize: 9,
+        halign: "center",
+        valign: "middle",
+        cellPadding: 3,
+      },
+
+      columnStyles: {
+
+        // SL
+        0: {
+          cellWidth: 12,
+        },
+
+        // Product Name
+        1: {
+          cellWidth: 38,
+          halign: "left",
+        },
+
+        // Sale Weight
+        2: {
+          cellWidth: 30,
+        },
+
+        // Sale Amount
+        3: {
+          cellWidth: 32,
+        },
+
+        // Purchase Rate
+        4: {
+          cellWidth: 38,
+        },
+
+        // Profit / Loss
+        5: {
+          cellWidth: 35,
+        },
+      },
+
+      margin: {
+        left: 10,
+        right: 10,
       },
     });
 
-    doc.save("monthly-product-profit-report.pdf");
+    // =========================
+    // Total Monthly Profit
+    // =========================
+
+    const totalMonthlyProfit = products.reduce((total, product) => {
+
+      const report = calculateMonthlyProductData(product);
+
+      return total + Number(report.profit || 0);
+
+    }, 0);
+
+    // =========================
+    // Overall Profit
+    // =========================
+
+    const finalY = doc.lastAutoTable.finalY + 15;
+
+    doc.setFontSize(13);
+
+    if (totalMonthlyProfit >= 0) {
+      doc.setTextColor(22, 163, 74);
+
+      doc.text(
+        `Total Monthly Profit: Tk ${totalMonthlyProfit.toFixed(2)}`,
+        pageWidth - 10,
+        finalY,
+        {
+          align: "right",
+        }
+      );
+    } else {
+      doc.setTextColor(220, 38, 38);
+
+      doc.text(
+        `Total Monthly Loss: Tk ${Math.abs(totalMonthlyProfit).toFixed(2)}`,
+        pageWidth - 10,
+        finalY,
+        {
+          align: "right",
+        }
+      );
+    }
+
+    // =========================
+    // Footer
+    // =========================
+
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+
+    doc.text(
+      "Printed by Noornabi",
+      pageWidth / 2,
+      pageHeight - 10,
+      {
+        align: "center",
+      }
+    );
+
+    // =========================
+    // Download
+    // =========================
+
+    doc.save(
+      `SR-Tradelink-Monthly-Profit-${selectedMonth}.pdf`
+    );
   };
 
   return (
