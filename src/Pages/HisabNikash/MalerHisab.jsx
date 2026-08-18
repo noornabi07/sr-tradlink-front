@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle } from "react-icons/fi";
 import Swal from "sweetalert2";
 import calculateMonthlyMunafa from "../Shared/Navbar/utils/calculateMonthlyProfit";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const MalerHisab = ({ setTotalMunafa }) => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
+
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
@@ -35,13 +41,13 @@ const MalerHisab = ({ setTotalMunafa }) => {
   }, []);
 
   const totalMonthlyMunafa = products.reduce((total, product) => {
-  const munafa = calculateMonthlyMunafa(product.transactions);
-  return total + munafa;
-}, 0);
+    const munafa = calculateMonthlyMunafa(product.transactions);
+    return total + munafa;
+  }, 0);
 
-useEffect(() => {
-  setTotalMunafa(totalMonthlyMunafa);
-}, [totalMonthlyMunafa]);
+  useEffect(() => {
+    setTotalMunafa(totalMonthlyMunafa);
+  }, [totalMonthlyMunafa]);
 
   const handleDeleteProduct = (id) => {
     Swal.fire({
@@ -77,12 +83,95 @@ useEffect(() => {
     });
   };
 
+
+  // ================= PDF Download =================
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+
+    doc.text(
+      "Monthly Product Profit Report",
+      pageWidth / 2,
+      20,
+      { align: "center" }
+    );
+
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+
+    doc.text(
+      `Month: ${new Date().toLocaleString("en-US", {
+        month: "long",
+        year: "numeric",
+      })}`,
+      pageWidth / 2,
+      28,
+      { align: "center" }
+    );
+
+    // আপাতত শুধু Product List দেখাবে
+    const tableRows = products.map((product, index) => [
+      index + 1,
+      product.name,
+      `${product.pricePerKg} Tk/kg`,
+    ]);
+
+    autoTable(doc, {
+      startY: 38,
+      head: [
+        ["ক্রমিক", "পণ্যের নাম", "বর্তমান দাম"]
+      ],
+      body: tableRows,
+      theme: "striped",
+      headStyles: {
+        fillColor: [34, 197, 94],
+      },
+    });
+
+    doc.save("monthly-product-profit-report.pdf");
+  };
+
   return (
     <div>
       {/* Heading */}
       <h1 className="text-3xl font-bold text-green-700 text-center mb-10">
         মালের তালিকা
       </h1>
+
+
+      {/* Month Selector */}
+      <div className="flex justify-center mb-5">
+        <div className="flex justify-cente">
+          <div className="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-md">
+            <label className="font-bold text-gray-700">
+              হিসাবের মাস:
+            </label>
+
+            <input
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="border px-4 py-2 rounded-xl
+      focus:ring-2 focus:ring-green-500 outline-none"
+            />
+          </div>
+
+          <button
+            onClick={handleDownloadPDF}
+            className="flex cursor-pointer ml-4 items-center gap-3 px-7 py-4 rounded-2xl
+    bg-blue-600 text-white text-lg font-bold shadow-xl
+    hover:bg-blue-700 hover:scale-105
+    transition-all duration-300"
+          >
+            📄রিপোর্ট
+          </button>
+        </div>
+      </div>
 
       {/* Search */}
       <div className="flex justify-center mb-5">
@@ -165,6 +254,16 @@ useEffect(() => {
           <p className="text-center text-gray-500">কোনো তথ্য পাওয়া যায়নি</p>
         )}
       </div>
+
+      {/* <button
+        onClick={handleDownloadPDF}
+        className="flex cursor-pointer text-center mx-auto mt-10 gap-3 px-7 py-4 rounded-2xl
+    bg-blue-600 text-white text-lg font-bold shadow-xl
+    hover:bg-blue-700 hover:scale-105
+    transition-all duration-300"
+      >
+        📄 মাসিক রিপোর্ট ডাউনলোড
+      </button> */}
 
       {/* Pagination */}
       {totalPages > 1 && (

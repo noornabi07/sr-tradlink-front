@@ -258,7 +258,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
                             <input type="number" placeholder="ক্যাশ জমা" value={cashJoma} onChange={e => setCashJoma(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
                             <input type="text" placeholder="বিবরণ (ঐচ্ছিক)" value={description} onChange={e => setDescription(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
                         </div>
-                        <button onClick={editing ? handleUpdate : handleAdd} className="w-full mt-6 py-3 rounded-xl bg-green-600 text-white font-bold">সংরক্ষণ</button>
+                        <button onClick={editing ? handleUpdate : handleAdd} className="w-full mt-6 py-3 rounded-xl bg-green-600 text-white font-bold">আপডেট করুন</button>
                     </div>
                 </div>
             )}

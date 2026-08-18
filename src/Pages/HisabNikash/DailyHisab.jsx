@@ -6,6 +6,8 @@ import autoTable from "jspdf-autotable";
 
 const DailyHisab = ({ totalMunafa }) => {
 
+    console.log({totalMunafa});
+
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
 

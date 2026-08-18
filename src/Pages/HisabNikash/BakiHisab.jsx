@@ -4,6 +4,9 @@ import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
 // import bakirList from "../../../public/data/bakirList.json";
 import Swal from "sweetalert2";
 
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
 const BakiHisab = () => {
   const [search, setSearch] = useState("");
   const [clients, setClients] = useState([]);
@@ -125,6 +128,193 @@ const BakiHisab = () => {
   };
 
 
+  // Handle PDF download
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // =========================
+    // Header
+    // =========================
+
+    doc.setFillColor(22, 163, 74);
+    doc.rect(0, 0, pageWidth, 30, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+
+    doc.text("SR Tradelink By Noornabi", pageWidth / 2, 19, {
+      align: "center",
+    });
+
+    // =========================
+    // Title
+    // =========================
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(16);
+
+    doc.text("Baki Hisab List", pageWidth / 2, 42, {
+      align: "center",
+    });
+
+    // =========================
+    // Prepare Data
+    // =========================
+
+    const tableData = clients.map((client, index) => {
+
+      let totalKroy = 0;
+      let totalJoma = 0;
+
+      client?.transactions?.forEach((transaction) => {
+        totalKroy += Number(transaction.kroy) || 0;
+        totalJoma += Number(transaction.joma) || 0;
+      });
+
+      const currentBaki = totalKroy - totalJoma;
+
+      return [
+        index + 1,
+        client.name || "",
+        client.location || "",
+        client.number || "",
+        ` ${totalKroy}`,
+        ` ${totalJoma}`,
+        ` ${currentBaki}`,
+      ];
+    });
+
+    // =========================
+    // Overall Total
+    // =========================
+
+    let overallBaki = 0;
+
+    clients.forEach((client) => {
+
+      let totalKroy = 0;
+      let totalJoma = 0;
+
+      client?.transactions?.forEach((transaction) => {
+        totalKroy += Number(transaction.kroy) || 0;
+        totalJoma += Number(transaction.joma) || 0;
+      });
+
+      overallBaki += totalKroy - totalJoma;
+    });
+
+    // =========================
+    // Table
+    // =========================
+
+    autoTable(doc, {
+      startY: 50,
+
+      head: [[
+        "SL",
+        "Name",
+        "Location",
+        "Mobile",
+        "Total Kroy",
+        "Total Joma",
+        "Current Baki",
+      ]],
+
+      body: tableData,
+
+      theme: "grid",
+
+      headStyles: {
+        fillColor: [22, 163, 74],
+        textColor: [255, 255, 255],
+        halign: "center",
+      },
+
+      bodyStyles: {
+        textColor: [0, 0, 0],
+      },
+
+      styles: {
+        fontSize: 9,
+        halign: "center",
+        valign: "middle",
+      },
+
+      columnStyles: {
+        0: {
+          cellWidth: 10,
+        },
+        1: {
+          cellWidth: 35,
+        },
+        2: {
+          cellWidth: 30,
+        },
+        3: {
+          cellWidth: 30,
+        },
+        4: {
+          cellWidth: 25,
+        },
+        5: {
+          cellWidth: 25,
+        },
+        6: {
+          cellWidth: 30,
+        },
+      },
+
+      margin: {
+        left: 10,
+        right: 10,
+      },
+    });
+
+    // =========================
+    // Overall Baki
+    // =========================
+
+    const finalY = doc.lastAutoTable.finalY + 15;
+
+    doc.setFontSize(13);
+    doc.setTextColor(220, 38, 38);
+
+    doc.text(
+      `Total Current Baki: Tk ${overallBaki}`,
+      pageWidth - 10,
+      finalY,
+      {
+        align: "right",
+      }
+    );
+
+    // =========================
+    // Footer
+    // =========================
+
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+
+    doc.text(
+      "Printed by Noornabi",
+      pageWidth / 2,
+      pageHeight - 10,
+      {
+        align: "center",
+      }
+    );
+
+    // =========================
+    // Download
+    // =========================
+
+    doc.save("SR-Tradelink-Baki-List.pdf");
+  };
+
+
 
   return (
     <div>
@@ -132,6 +322,18 @@ const BakiHisab = () => {
       <h1 className="text-3xl font-bold text-green-700 text-center mb-10">
         বাকি নামের তালিকা
       </h1>
+
+      {/* Heading + PDF Button */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
+
+        <button
+          onClick={handleDownloadPDF}
+          className="px-6 py-3 rounded-xl bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition"
+        >
+          📄 বাকির লিস্ট ডাউনলোড
+        </button>
+
+      </div>
 
       {/* Search */}
       <div className="flex justify-center mb-5">
@@ -161,6 +363,8 @@ const BakiHisab = () => {
           <FiPlusCircle className="text-2xl" />
           নতুন বাকির নাম লিখুন
         </button>
+
+
       </div>
 
       {/* List */}
