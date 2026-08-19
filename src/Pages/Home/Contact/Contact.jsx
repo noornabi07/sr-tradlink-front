@@ -29,7 +29,7 @@ const ContactSection = () => {
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <BiPhoneCall className="text-3xl text-green-600" />
-                <p className="text-lg">+৮৮০ ১৮২৬১৪৭১৮০</p>
+                <p className="text-lg">+88 01826147180</p>
               </div>
 
               <div className="flex items-center gap-4">

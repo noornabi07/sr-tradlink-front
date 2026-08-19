@@ -319,7 +319,7 @@ const BakiHisab = () => {
   return (
     <div>
       {/* Heading */}
-      <h1 className="text-3xl font-bold text-green-700 text-center mb-10">
+      <h1 className="text-3xl font-bold text-green-700 mt-0 text-center mb-10">
         বাকি নামের তালিকা
       </h1>
 
@@ -382,7 +382,7 @@ const BakiHisab = () => {
                 <p className="text-gray-500 mt-1">{item?.number}</p>
               </div>
 
-              <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 md:mt-0">
                 <Link
                   to={`/baki-hisab/${item._id}`}
                   state={{ name: item.name }}

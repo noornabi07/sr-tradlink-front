@@ -1,204 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect} from "react";
 
 const ProductsGrid = () => {
-  const products = [
-    {
-      name: "Vhusi",
-      subtitle: "High-nutrition Mota Vhusi",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Hot",
-    },
-    {
-      name: "Chola Vhusi",
-      subtitle: "High-nutrition Chola Vhusi",
-      price: "60kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Hot",
-    },
-    {
-      name: "Akari Dhan",
-      subtitle: "Boosts healthy calf growth",
-      price: "20kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Hot",
-    },
-    {
-      name: "Soyameel",
-      subtitle: "High-nutrition Soyameel",
-      price: "70kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Hot",
-    },
-    {
-      name: "Soyameel vhusi-soyahance",
-      subtitle: "Premium performance blend",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Premium",
-    },
-    {
-      name: "Sorisa Khoil",
-      subtitle: "Premium performance blend",
-      price: "55kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Farmer's Choice",
-    },
-    {
-      name: "Medicine",
-      subtitle: "Improves cattle immunity",
-      price: "900 per pack",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Hot",
-    },
-    {
-      name: "Protin Mix",
-      subtitle: "Better digestion & energy",
-      price: "90kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-    {
-      name: "DRB - Bran",
-      subtitle: "Essential minerals for cattle health",
-      price: "35kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Farmer's Choice",
-    },
-    {
-      name: "Broyler Feed",
-      subtitle: "Improves cattle immunity",
-      price: "70kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Recommended",
-    },
-    {
-      name: "Zero Feed",
-      subtitle: "Better digestion & energy",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-    {
-      name: "Fish Feed",
-      subtitle: "Essential minerals for fish health",
-      price: "60kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Farmer's Choice",
-    },
-    {
-      name: "Meet Cow Feed",
-      subtitle: "Improves cattle immunity",
-      price: "60kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Recommended",
-    },
-    {
-      name: "Milk Cow Feed",
-      subtitle: "Better digestion & energy",
-      price: "60kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "khudi",
-      subtitle: "Better digestion & energy",
-      price: "35kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Musur Vanga",
-      subtitle: "Better digestion & energy",
-      price: "55kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-    {
-      name: "Musur Dal",
-      subtitle: "Better digestion & energy",
-      price: "90kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-    {
-      name: "Maskalai",
-      subtitle: "Better digestion & energy",
-      price: "150kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-    {
-      name: "Musur Vanga",
-      subtitle: "Better digestion & energy",
-      price: "55kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Pakhir Mix",
-      subtitle: "Better digestion & energy",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Musur Vanga",
-      subtitle: "Better digestion & energy",
-      price: "55kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Vuttar Atta",
-      subtitle: "Better digestion & energy",
-      price: "35kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Dabli But",
-      subtitle: "Better digestion & energy",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Deshi Chola But",
-      subtitle: "Better digestion & energy",
-      price: "90kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Rice",
-      subtitle: "Better digestion & energy",
-      price: "70kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Karpet",
-      subtitle: "Better digestion & energy",
-      price: "850 per pack",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Zinc",
-      subtitle: "Better digestion & energy",
-      price: "120kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-     {
-      name: "Mix vhusi",
-      subtitle: "Better digestion & energy",
-      price: "50kg",
-      image: "https://i.ibb.co.com/Nnbkkb0z/product-1.webp",
-      badge: "Balanced",
-    },
-  ]
+
+  const [products, setProducts] = useState([]);
+
 
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -216,6 +21,12 @@ const ProductsGrid = () => {
         p.subtitle.toLowerCase().includes(term)
     );
   }, [searchTerm, products]);
+
+  useEffect(() => {
+  fetch("http://localhost:3000/homeproducts")
+    .then(res => res.json())
+    .then(data => setProducts(data));
+}, []);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 

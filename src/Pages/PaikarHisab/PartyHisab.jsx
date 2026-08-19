@@ -178,7 +178,7 @@ const PartyHisab = () => {
                 <p className="text-gray-500 mt-1">{item?.number}</p>
               </div>
 
-              <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 md:mt-0">
                 <Link
                   to={`/party-hisab/${item._id}`}
                   state={{ name: item.name }}

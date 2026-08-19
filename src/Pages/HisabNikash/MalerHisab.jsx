@@ -395,7 +395,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
 
       {/* Month Selector */}
       <div className="flex justify-center mb-5">
-        <div className="flex justify-cente">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
           <div className="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-md">
             <label className="font-bold text-gray-700">
               হিসাবের মাস:
@@ -466,7 +466,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
                 <p className="text-gray-500 mt-1 text-left">৳ {item.pricePerKg}/kg</p>
               </div>
 
-              <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 md:mt-0">
                 {/* Details Button */}
                 <Link
                   to={`/product-details/${item._id}`}

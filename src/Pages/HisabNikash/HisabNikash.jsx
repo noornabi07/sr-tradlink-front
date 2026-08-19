@@ -15,11 +15,11 @@ const HisabNikash = () => {
     <div className="min-h-screen pt-28 px-4 bg-base-200">
       {/* ===== Top Buttons ===== */}
       <div className="flex justify-center">
-        <div className="flex gap-4 bg-white p-2 rounded-2xl shadow-lg">
+        <div className="flex gap-1 md:gap-4 bg-white p-2 rounded-2xl shadow-lg">
 
           <button
             onClick={() => setActiveTab("daily")}
-            className={`px-6 py-3 rounded-xl text-lg font-semibold transition-all duration-300
+            className={`px-6 py-3 rounded-xl text-sm md:text-lg font-semibold transition-all duration-300
               ${
                 activeTab === "daily"
                   ? "bg-green-600 text-white shadow-md scale-105"
@@ -31,7 +31,7 @@ const HisabNikash = () => {
 
           <button
             onClick={() => setActiveTab("maler")}
-            className={`px-6 py-3 rounded-xl text-lg font-semibold transition-all duration-300
+            className={`px-6 py-3 rounded-xl text-sm md:text-lg font-semibold transition-all duration-300
               ${
                 activeTab === "maler"
                   ? "bg-green-600 text-white shadow-md scale-105"
@@ -43,7 +43,7 @@ const HisabNikash = () => {
 
           <button
             onClick={() => setActiveTab("baki")}
-            className={`px-6 py-3 rounded-xl text-lg font-semibold transition-all duration-300
+            className={`px-6 py-3 rounded-xl text-sm md:text-lg font-semibold transition-all duration-300
               ${
                 activeTab === "baki"
                   ? "bg-green-600 text-white shadow-md scale-105"
