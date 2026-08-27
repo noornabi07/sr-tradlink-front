@@ -3,6 +3,7 @@ import { FiEdit, FiPlusCircle, FiTrash2, FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config/api";
 
 const BakiDetails = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const BakiDetails = () => {
     const [description, setDescription] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:3000/clients/${id}`)
+        fetch(`${API_BASE_URL}/clients/${id}`)
             .then(res => res.json())
             .then(data => setClient(data));
     }, [id]);
@@ -56,7 +57,7 @@ const BakiDetails = () => {
             description: description || ""
         };
 
-        fetch(`http://localhost:3000/clients/${id}/transactions`, {
+        fetch(`${API_BASE_URL}/clients/${id}/transactions`, {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -90,7 +91,7 @@ const BakiDetails = () => {
             description: description || ""
         };
 
-        fetch(`http://localhost:3000/clients/${id}/transactions/${editingTransaction._id}`, {
+        fetch(`${API_BASE_URL}/clients/${id}/transactions/${editingTransaction._id}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
@@ -140,7 +141,7 @@ const BakiDetails = () => {
             cancelButtonColor: "#3085d6"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/clients/${id}/transactions/${transactionId}`, {
+                fetch(`${API_BASE_URL}/clients/${id}/transactions/${transactionId}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const PartyDetails = () => {
     const { id } = useParams();
@@ -29,7 +30,7 @@ const PartyDetails = () => {
 
     // Party statement read
     useEffect(() => {
-        fetch(`http://localhost:3000/partys/${id}`)
+        fetch(`${API_BASE_URL}/partys/${id}`)
             .then(res => res.json())
             .then(data => setParty(data));
     }, [id]);
@@ -97,7 +98,7 @@ const PartyDetails = () => {
             biboron: biboron
         };
 
-        fetch(`http://localhost:3000/partys/${id}/transactions`, {
+        fetch(`${API_BASE_URL}/partys/${id}/transactions`, {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(newTransaction)
@@ -124,7 +125,7 @@ const PartyDetails = () => {
             biboron
         };
 
-        fetch(`http://localhost:3000/partys/${id}/transactions/${editingTransaction._id}`, {
+        fetch(`${API_BASE_URL}/partys/${id}/transactions/${editingTransaction._id}`, {
             method: "PUT",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(updatedTransaction)
@@ -156,7 +157,7 @@ const PartyDetails = () => {
             cancelButtonColor: "#3085d6"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/partys/${id}/transactions/${transactionId}`, { method: "DELETE" })
+                fetch(`${API_BASE_URL}/partys/${id}/transactions/${transactionId}`, { method: "DELETE" })
                     .then(res => res.json())
                     .then(() => {
                         setParty(prev => ({

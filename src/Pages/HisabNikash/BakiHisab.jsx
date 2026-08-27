@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const BakiHisab = () => {
   const [search, setSearch] = useState("");
@@ -36,7 +37,7 @@ const BakiHisab = () => {
   const paginatedList = filteredList.slice(startIndex, endIndex);
 
   useEffect(() => {
-    fetch("http://localhost:3000/clients")
+    fetch(`${API_BASE_URL}/clients`)
       .then(res => res.json())
       .then(data => {
         setClients(data);
@@ -61,7 +62,7 @@ const BakiHisab = () => {
       location: updateLocation,
     };
 
-    fetch(`http://localhost:3000/clients/${selectedClient._id}`, {
+    fetch(`${API_BASE_URL}/clients/${selectedClient._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -105,7 +106,7 @@ const BakiHisab = () => {
       cancelButtonText: "না",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/clients/${id}`, {
+        fetch(`${API_BASE_URL}/clients/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -525,7 +526,7 @@ const BakiHisab = () => {
                 // console.log("New User:", newUser);
                 // 🔜 future: state / localStorage / backend save
 
-                fetch('http://localhost:3000/clients', {
+                fetch(`${API_BASE_URL}/clients`, {
                   method: 'POST',
                   headers: {
                     'content-type': 'application/json'
