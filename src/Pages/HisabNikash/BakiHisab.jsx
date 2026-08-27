@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
-// import bakirList from "../../../public/data/bakirList.json";
 import Swal from "sweetalert2";
 
 import jsPDF from "jspdf";
