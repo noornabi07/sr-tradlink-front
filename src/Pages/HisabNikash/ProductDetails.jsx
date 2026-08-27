@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const ProductDetails = () => {
   const { name } = location.state || {};
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/${id}`)
+    fetch(`${API_BASE_URL}/products/${id}`)
       .then(res => res.json())
       .then(data => setProduct(data));
   }, [id]);
@@ -143,7 +144,7 @@ const ProductDetails = () => {
 
     console.log("New Transaction:", newTransaction);
 
-    fetch(`http://localhost:3000/products/${id}/transactions`, {
+    fetch(`${API_BASE_URL}/products/${id}/transactions`, {
       method: 'POST',
       headers: {
         "content-type": "application/json"
@@ -184,7 +185,7 @@ const ProductDetails = () => {
 
     };
 
-    fetch(`http://localhost:3000/products/${id}/transactions/${editingTransaction._id}`, {
+    fetch(`${API_BASE_URL}/products/${id}/transactions/${editingTransaction._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -236,7 +237,7 @@ const ProductDetails = () => {
       cancelButtonText: "বাতিল",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/products/${id}/transactions/${transactionId}`, {
+        fetch(`${API_BASE_URL}/products/${id}/transactions/${transactionId}`, {
           method: "DELETE",
         })
           .then(res => res.json())

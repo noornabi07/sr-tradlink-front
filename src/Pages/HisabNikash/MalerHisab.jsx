@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import calculateMonthlyMunafa from "../Shared/Navbar/utils/calculateMonthlyProfit";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const MalerHisab = ({ setTotalMunafa }) => {
   const [search, setSearch] = useState("");
@@ -35,7 +36,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
   const paginatedList = filteredList.slice(startIndex, endIndex);
 
   useEffect(() => {
-    fetch("http://localhost:3000/products")
+    fetch(`${API_BASE_URL}/products`)
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);
@@ -139,7 +140,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
       cancelButtonText: "না, বাতিল",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/products/${id}`, { method: "DELETE" })
+        fetch(`${API_BASE_URL}/products/${id}`, { method: "DELETE" })
           .then(res => res.json())
           .then(() => {
             setProducts(prev => prev.filter(product => product._id !== id));
@@ -604,7 +605,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
                 if (editingProduct) {
                   // 🔵 UPDATE
                   const updatedProduct = { name, pricePerKg: Number(pricePerKg) };
-                  fetch(`http://localhost:3000/products/${editingProduct._id}`, {
+                  fetch(`${API_BASE_URL}/products/${editingProduct._id}`, {
                     method: "PUT",
                     headers: { "content-type": "application/json" },
                     body: JSON.stringify(updatedProduct),
@@ -628,7 +629,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
                 } else {
                   // 🟢 ADD
                   const newProduct = { name, pricePerKg: Number(pricePerKg) };
-                  fetch("http://localhost:3000/products", {
+                  fetch(`${API_BASE_URL}/products`, {
                     method: "POST",
                     headers: { "content-type": "application/json" },
                     body: JSON.stringify(newProduct),

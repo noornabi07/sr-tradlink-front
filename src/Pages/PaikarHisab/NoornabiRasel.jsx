@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const NoornabiRasel = ({ setActiveTab }) => {
 
@@ -27,7 +28,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
     const fetchTransactions = async () => {
         try {
             setLoading(true);
-            const res = await fetch("http://localhost:3000/dokantransactions");
+            const res = await fetch(`${API_BASE_URL}/dokantransactions`);
             if (!res.ok) throw new Error();
             const data = await res.json();
             setTransactions(data);
@@ -65,7 +66,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/dokantransactions", {
+            const res = await fetch(`${API_BASE_URL}/dokantransactions`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({ date, motKroy, cashJoma, description })
@@ -84,7 +85,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
     const handleUpdate = async () => {
         if (!editing) return;
         try {
-            const res = await fetch(`http://localhost:3000/dokantransactions/${editing._id}`, {
+            const res = await fetch(`${API_BASE_URL}/dokantransactions/${editing._id}`, {
                 method: "PUT",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({ date, motKroy, cashJoma, description })
@@ -108,7 +109,7 @@ const NoornabiRasel = ({ setActiveTab }) => {
         }).then(async (res) => {
             if (!res.isConfirmed) return;
             try {
-                const response = await fetch(`http://localhost:3000/dokantransactions/${id}`, { method: "DELETE" });
+                const response = await fetch(`${API_BASE_URL}/dokantransactions/${id}`, { method: "DELETE" });
                 if (!response.ok) throw new Error();
                 await fetchTransactions();
                 Swal.fire({ icon: "success", title: "মুছে গেছে 🗑️", timer: 1200, showConfirmButton: false });

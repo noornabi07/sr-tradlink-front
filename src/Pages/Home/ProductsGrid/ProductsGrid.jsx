@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect} from "react";
+import { API_BASE_URL } from "../../../config/api";
 
 const ProductsGrid = () => {
 
@@ -23,7 +24,7 @@ const ProductsGrid = () => {
   }, [searchTerm, products]);
 
   useEffect(() => {
-  fetch("http://localhost:3000/homeproducts")
+  fetch(`${API_BASE_URL}/homeproducts`)
     .then(res => res.json())
     .then(data => setProducts(data));
 }, []);

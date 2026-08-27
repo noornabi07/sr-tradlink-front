@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_BASE_URL } from "../../config/api";
 
 const DailyHisab = ({ totalMunafa }) => {
 
@@ -28,7 +29,7 @@ const DailyHisab = ({ totalMunafa }) => {
     const itemsPerPage = 5;
 
     useEffect(() => {
-        fetch("http://localhost:3000/products")
+        fetch(`${API_BASE_URL}/products`)
             .then(res => res.json())
             .then(data => setProducts(data))
             .catch(() => {
@@ -120,7 +121,7 @@ const DailyHisab = ({ totalMunafa }) => {
     }, 0);
 
 
-    const API = "http://localhost:3000/dailytransactions";
+    const API = `${API_BASE_URL}/dailytransactions`;
 
 
     // ================= Fetch =================

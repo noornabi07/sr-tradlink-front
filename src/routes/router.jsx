@@ -5,7 +5,7 @@ import HisabNikash from "../Pages/HisabNikash/HisabNikash";
 import BakiDetails from "../Pages/HisabNikash/BakiDetails";
 import ProductDetails from "../Pages/HisabNikash/ProductDetails";
 import MalerHisab from "../Pages/HisabNikash/MalerHisab";
-import PaikarHisab from "../Pages/paikarHisab/paikarHisab";
+import PaikarHisab from "../Pages/PaikarHisab/PaikarHisab";
 import PartyDetails from "../Pages/PaikarHisab/PartyDetails";
 
 export const router = createBrowserRouter([

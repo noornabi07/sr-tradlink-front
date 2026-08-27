@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPlusCircle, FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../config/api";
 
 const PartyHisab = () => {
   const [search, setSearch] = useState("");
@@ -34,7 +35,7 @@ const PartyHisab = () => {
 
     // Party name list read kora function
   useEffect(() => {
-    fetch("http://localhost:3000/partys")
+    fetch(`${API_BASE_URL}/partys`)
       .then(res => res.json())
       .then(data => {
         setPartys(data);
@@ -59,7 +60,7 @@ const PartyHisab = () => {
       location: updateLocation,
     };
 
-    fetch(`http://localhost:3000/partys/${selectedParty._id}`, {
+    fetch(`${API_BASE_URL}/partys/${selectedParty._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -103,7 +104,7 @@ const PartyHisab = () => {
       cancelButtonText: "না",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/partys/${id}`, {
+        fetch(`${API_BASE_URL}/partys/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -322,7 +323,7 @@ const PartyHisab = () => {
                 // console.log("New User:", newUser);
                 // 🔜 future: state / localStorage / backend save
 
-                fetch('http://localhost:3000/partys', {
+                fetch(`${API_BASE_URL}/partys`, {
                   method: 'POST',
                   headers: {
                     'content-type': 'application/json'
