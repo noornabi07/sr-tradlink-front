@@ -11,7 +11,9 @@ const BakiDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { name } = location.state || {};
+    const { name, number } = location.state || {};
+    console.log("Client Name from state:", name);
+    console.log("Client Number from state:", number);
 
     const [editingTransaction, setEditingTransaction] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -188,6 +190,7 @@ const BakiDetails = () => {
             <div className="bg-gradient-to-r from-green-600 to-emerald-600
         rounded-3xl p-8 shadow-xl text-white mb-10">
                 <h1 className="text-4xl font-bold">{name}</h1>
+                <p className="text-xl mt-2 opacity-90">মোবাইল: {number}</p>
                 <p className="mt-2 opacity-90">বাকির হিসাব বিবরণ</p>
             </div>
 

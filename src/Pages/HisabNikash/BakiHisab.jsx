@@ -385,7 +385,7 @@ const BakiHisab = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 md:mt-0">
                 <Link
                   to={`/baki-hisab/${item._id}`}
-                  state={{ name: item.name }}
+                  state={{ name: item.name, number: item.number }}
                   className="px-5 py-2 rounded-xl
                   bg-green-600 text-white font-semibold
                   hover:bg-green-700 transition"
