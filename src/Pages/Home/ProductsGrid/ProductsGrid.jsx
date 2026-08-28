@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect} from "react";
-import { API_BASE_URL } from "../../../config/api";
+import { getPublicDataUrl } from "../../../config/publicData";
 
 const ProductsGrid = () => {
 
@@ -24,10 +24,14 @@ const ProductsGrid = () => {
   }, [searchTerm, products]);
 
   useEffect(() => {
-  fetch(`${API_BASE_URL}/homeproducts`)
-    .then(res => res.json())
-    .then(data => setProducts(data));
-}, []);
+    fetch(getPublicDataUrl("productList.json"))
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load product list");
+        return res.json();
+      })
+      .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
