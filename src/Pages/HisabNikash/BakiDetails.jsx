@@ -315,35 +315,35 @@ const BakiDetails = () => {
                                 type="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
-                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                                className="w-full px-5 py-3 rounded-xl border text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                             />
                             <input
                                 type="number"
-                                placeholder="মোট ক্রয় দর"
+                                placeholder="মোট ক্রয় দর"
                                 value={kroy}
                                 onChange={(e) => setKroy(e.target.value)}
-                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                                className="w-full px-5 py-3 rounded-xl border text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                             />
                             <input
                                 type="number"
                                 placeholder="জমা"
                                 value={joma}
                                 onChange={(e) => setJoma(e.target.value)}
-                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                                className="w-full px-5 py-3 rounded-xl border text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                             />
                             <input
                                 type="number"
                                 placeholder="বাকি"
                                 value={baki}
                                 onChange={(e) => setBaki(e.target.value)}
-                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                                className="w-full px-5 py-3 rounded-xl border text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                             />
                             <input
                                 type="text"
                                 placeholder="বিবরণ (ঐচ্ছিক)"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                                className="w-full px-5 py-3 rounded-xl border text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                             />
 
                         </div>

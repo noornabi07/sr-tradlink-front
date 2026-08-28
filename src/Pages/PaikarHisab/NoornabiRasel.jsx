@@ -179,15 +179,15 @@ const NoornabiRasel = ({ setActiveTab }) => {
 
             <div className="grid md:grid-cols-3 gap-6 mb-12">
                 <div className="bg-base-100 p-6 rounded-2xl shadow text-center">
-                    <p>মোট ক্রয়</p>
+                    <p className="text-black font-semibold">মোট ক্রয়</p>
                     <h2 className="text-3xl font-bold text-green-700">৳ {totalKroy}</h2>
                 </div>
                 <div className="bg-base-100 p-6 rounded-2xl shadow text-center">
-                    <p>মোট জমা</p>
+                    <p className="text-black font-semibold">মোট জমা</p>
                     <h2 className="text-3xl font-bold text-blue-600">৳ {totalJoma}</h2>
                 </div>
                 <div className="bg-base-100 p-6 rounded-2xl shadow border-2 border-red-500 text-center">
-                    <p>পাওনা</p>
+                    <p className="text-black font-semibold">পাওনা</p>
                     <h2 className="text-3xl font-bold text-red-600">৳ {totalPawna}</h2>
                 </div>
             </div>
@@ -254,10 +254,10 @@ const NoornabiRasel = ({ setActiveTab }) => {
                         <button onClick={resetForm} className="absolute top-4 right-4 text-xl"><FiX /></button>
                         <h2 className="text-2xl font-bold text-center text-green-700">{editing ? "আপডেট করুন" : "নতুন যোগ করুন"}</h2>
                         <div className="mt-6 space-y-4">
-                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
-                            <input type="number" placeholder="মোট ক্রয়" value={motKroy} onChange={e => setMotKroy(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
-                            <input type="number" placeholder="ক্যাশ জমা" value={cashJoma} onChange={e => setCashJoma(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
-                            <input type="text" placeholder="বিবরণ (ঐচ্ছিক)" value={description} onChange={e => setDescription(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
+                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full px-4 py-2 border rounded-xl text-black bg-gray-100" />
+                            <input type="number" placeholder="মোট ক্রয়" value={motKroy} onChange={e => setMotKroy(e.target.value)} className="w-full px-4 py-2 border rounded-xl text-black bg-gray-100" />
+                            <input type="number" placeholder="ক্যাশ জমা" value={cashJoma} onChange={e => setCashJoma(e.target.value)} className="w-full px-4 py-2 border rounded-xl text-black bg-gray-100" />
+                            <input type="text" placeholder="বিবরণ (ঐচ্ছিক)" value={description} onChange={e => setDescription(e.target.value)} className="w-full px-4 py-2 border rounded-xl text-black bg-gray-100" />
                         </div>
                         <button onClick={editing ? handleUpdate : handleAdd} className="w-full mt-6 py-3 rounded-xl bg-green-600 text-white font-bold">আপডেট করুন</button>
                     </div>

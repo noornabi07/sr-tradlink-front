@@ -407,7 +407,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
               className="border px-4 py-2 rounded-xl
-      focus:ring-2 focus:ring-green-500 outline-none"
+      focus:ring-2 focus:ring-green-500 text-black bg-gray-100 outline-none"
             />
           </div>
 
@@ -434,7 +434,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
             setCurrentPage(1); // Reset page on search
           }}
           className="w-full max-w-xl px-5 py-4 rounded-2xl border
-          focus:ring-2 focus:ring-green-500 shadow-md text-lg"
+          focus:ring-2 focus:ring-green-500 text-black bg-gray-100 shadow-md text-lg"
         />
       </div>
 
@@ -576,7 +576,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-5 py-3 rounded-xl border
-                  focus:ring-2 focus:ring-green-500 outline-none"
+                  focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
 
               <input
@@ -585,7 +585,7 @@ const MalerHisab = ({ setTotalMunafa }) => {
                 value={pricePerKg}
                 onChange={(e) => setPricePerKg(e.target.value)}
                 className="w-full px-5 py-3 rounded-xl border
-                  focus:ring-2 focus:ring-green-500 outline-none"
+                  focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
             </div>
 

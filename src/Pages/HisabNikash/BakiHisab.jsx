@@ -346,7 +346,7 @@ const BakiHisab = () => {
             setCurrentPage(1); // Reset page on search
           }}
           className="w-full max-w-xl px-5 py-4 rounded-2xl border
-          focus:ring-2 focus:ring-green-500 shadow-md text-lg"
+          focus:ring-2 focus:ring-green-500 text-black bg-gray-100 shadow-md text-lg"
         />
       </div>
 
@@ -481,7 +481,7 @@ const BakiHisab = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-5 py-3 rounded-xl border
-          focus:ring-2 focus:ring-green-500 outline-none"
+          focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
 
               <input
@@ -490,7 +490,7 @@ const BakiHisab = () => {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full px-5 py-3 rounded-xl border
-          focus:ring-2 focus:ring-green-500 outline-none"
+          focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
 
               <input
@@ -499,7 +499,7 @@ const BakiHisab = () => {
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
                 className="w-full px-5 py-3 rounded-xl border
-          focus:ring-2 focus:ring-green-500 outline-none"
+          focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
             </div>
 
@@ -614,7 +614,7 @@ const BakiHisab = () => {
                 onChange={(e) => setUpdateName(e.target.value)}
                 placeholder="নাম"
                 className="w-full px-5 py-3 rounded-xl border
-          focus:ring-2 focus:ring-blue-500 outline-none"
+          focus:ring-2 focus:ring-blue-500 outline-none text-black bg-gray-100"
               />
 
               <input
@@ -623,7 +623,7 @@ const BakiHisab = () => {
                 onChange={(e) => setUpdateLocation(e.target.value)}
                 placeholder="লোকেশন"
                 className="w-full px-5 py-3 rounded-xl border
-          focus:ring-2 focus:ring-blue-500 outline-none"
+          focus:ring-2 focus:ring-blue-500 outline-none text-black bg-gray-100"
               />
             </div>
 

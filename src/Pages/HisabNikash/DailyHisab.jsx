@@ -544,7 +544,7 @@ const DailyHisab = ({ totalMunafa }) => {
 
         <div className="max-w-6xl mx-auto px-4">
 
-            <h1 className="text-4xl font-bold text-center mb-10">দৈনিক হিসাব</h1>
+            <h1 className="text-4xl font-bold text-black text-center mb-10">দৈনিক হিসাব</h1>
 
 
             {/* Month + Search */}
@@ -555,14 +555,14 @@ const DailyHisab = ({ totalMunafa }) => {
                     type="month"
                     value={selectedMonth}
                     onChange={e => setSelectedMonth(e.target.value)}
-                    className="border px-3 py-2 rounded-xl"
+                    className="border px-3 py-2 rounded-xl text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                 />
 
                 <input
                     type="date"
                     value={searchDate}
                     onChange={e => setSearchDate(e.target.value)}
-                    className="border px-3 py-2 rounded-xl"
+                    className="border px-3 py-2 rounded-xl text-black bg-gray-100 focus:ring-2 focus:ring-green-500 outline-none"
                 />
 
                 <button
@@ -587,32 +587,32 @@ const DailyHisab = ({ totalMunafa }) => {
             <div className="grid md:grid-cols-3 gap-6 mb-10">
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট বিক্রি</p>
+                    <p className="text-black font-semibold">মাসের মোট বিক্রি</p>
                     <h2 className="text-3xl font-bold text-green-600">৳ {totalBikri}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট উত্তোলন</p>
+                    <p className="text-black font-semibold">মাসের মোট উত্তোলন</p>
                     <h2 className="text-3xl font-bold text-blue-600">৳ {totalUttholon}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট বাকি</p>
+                    <p className="text-black font-semibold">মাসের মোট বাকি</p>
                     <h2 className="text-3xl font-bold text-red-600">৳ {totalBaki}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট বিতরণ</p>
+                    <p className="text-black font-semibold">মাসের মোট বিতরণ</p>
                     <h2 className="text-3xl font-bold text-purple-600">৳ {totalBitoron}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট খরচ</p>
+                    <p className="text-black font-semibold">মাসের মোট খরচ</p>
                     <h2 className="text-3xl font-bold text-orange-600">৳ {totalKhoroch}</h2>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow text-center">
-                    <p>মাসের মোট মুনাফা</p>
+                    <p className="text-black font-semibold">মাসের মোট মুনাফা</p>
                     <h2 className="text-3xl font-bold text-green-600">৳ {totalMonthlyProfit}</h2>
                 </div>
 
@@ -748,25 +748,32 @@ const DailyHisab = ({ totalMunafa }) => {
                             <FiX />
                         </button>
 
-                        <h2 className="text-2xl font-bold text-center mb-6">
+                        <h2 className="text-2xl text-green-600 font-bold text-center mb-6">
                             {editing ? "Update" : "Add Transaction"}
                         </h2>
 
                         <div className="space-y-4">
 
-                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
-                            <input type="number" placeholder="মোট বিক্রয়" value={bikri} onChange={e => setBikri(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বিক্রয়" value={bikri} onChange={e => setBikri(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
-                            <input type="number" placeholder="মোট উত্তোলন" value={uttholon} onChange={e => setUttholon(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট উত্তোলন" value={uttholon} onChange={e => setUttholon(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none " />
 
-                            <input type="number" placeholder="মোট বাকি " value={baki} onChange={e => setBaki(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বাকি " value={baki} onChange={e => setBaki(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
-                            <input type="number" placeholder="মোট বিতরণ" value={bitoron} onChange={e => setBitoron(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট বিতরণ" value={bitoron} onChange={e => setBitoron(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
-                            <input type="text" placeholder="বিতরণ নোট" value={bitoronDes} onChange={e => setBitoronDes(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="text" placeholder="বিতরণ নোট" value={bitoronDes} onChange={e => setBitoronDes(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
-                            <input type="number" placeholder="মোট খরচ" value={khoroch} onChange={e => setKhoroch(e.target.value)} className="w-full border px-4 py-2 rounded-xl" />
+                            <input type="number" placeholder="মোট খরচ" value={khoroch} onChange={e => setKhoroch(e.target.value)} className="w-full border text-black bg-gray-100 px-4 py-2 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none" />
 
                         </div>
 

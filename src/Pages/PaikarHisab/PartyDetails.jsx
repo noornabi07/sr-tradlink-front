@@ -274,10 +274,13 @@ const PartyDetails = () => {
                         <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-xl transition"><FiX /></button>
                         <h2 className="text-2xl font-bold text-green-700 text-center">{editingTransaction ? "লেনদেন আপডেট করুন" : "নতুন লেনদেন যোগ করুন"}</h2>
                         <div className="mt-6 space-y-4">
-                            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none" />
-                            <input type="number" placeholder="মোট ক্রয় দর" value={kroy} onChange={(e) => setKroy(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none" />
-                            <input type="number" placeholder="জমা" value={joma} onChange={(e) => setJoma(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none" />
-                            <input type="text" placeholder="বিবরণ" value={biboron} onChange={(e) => setBiboron(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none" />
+                            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100" />
+
+                            <input type="number" placeholder="মোট ক্রয় দর" value={kroy} onChange={(e) => setKroy(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100" />
+
+                            <input type="number" placeholder="জমা" value={joma} onChange={(e) => setJoma(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100" />
+
+                            <input type="text" placeholder="বিবরণ" value={biboron} onChange={(e) => setBiboron(e.target.value)} className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100" />
                         </div>
                         <button onClick={editingTransaction ? handleUpdateTransaction : handleAddTransaction} className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold text-lg hover:scale-105 transition">সংরক্ষণ করুন</button>
                         <style>{`

@@ -12,7 +12,7 @@ const ContactSection = () => {
             যোগাযোগ করুন
           </span>
 
-          <h2 className="text-4xl font-bold mt-6">
+          <h2 className="text-4xl text-black font-bold mt-6">
             এসআর ট্রেডলিংকের সাথে যোগাযোগ করুন
           </h2>
           <p className="text-gray-600 text-lg mt-3 max-w-xl mx-auto">
@@ -24,22 +24,22 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Info Card */}
           <div className="card bg-white shadow-xl rounded-3xl p-8">
-            <h3 className="text-2xl font-bold mb-6">যোগাযোগের তথ্য</h3>
+            <h3 className="text-2xl text-black font-bold mb-6">যোগাযোগের তথ্য</h3>
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <BiPhoneCall className="text-3xl text-green-600" />
-                <p className="text-lg">+88 01826147180</p>
+                <p className="text-lg text-green-600">+88 01826147180</p>
               </div>
 
               <div className="flex items-center gap-4">
                 <BsEnvelopeFill className="text-3xl text-green-600" />
-                <p className="text-lg">noornabikhan100@gmail.com</p>
+                <p className="text-lg text-green-600">noornabikhan100@gmail.com</p>
               </div>
 
               <div className="flex items-center gap-4">
                 <GoLocation className="text-3xl text-green-600" />
-                <p className="text-lg">ঝাড়বাড়ী, বীরগঞ্জ, দিনাজপুর </p>
+                <p className="text-lg text-green-600">ঝাড়বাড়ী, বীরগঞ্জ, দিনাজপুর </p>
               </div>
             </div>
           </div>

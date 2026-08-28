@@ -382,7 +382,7 @@ const ProductDetails = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-8 shadow-xl text-white mb-10 text-left">
         <h1 className="text-4xl font-bold">{name}</h1>
-        <p className="mt-2 opacity-90 font-semibold">পণ্য লেনদেনের বিবরণ</p>
+        <p className="mt-2 opacity-90 font-semibold text-left text-white">পণ্য লেনদেনের বিবরণ</p>
       </div>
 
       {/* Summary Cards */}
@@ -540,35 +540,35 @@ const ProductDetails = () => {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
               <input
                 type="number"
                 placeholder="মাল ক্রয় ওজন"
                 value={kroyweight}
                 onChange={(e) => setKroyweight(e.target.value)}
-                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
               <input
                 type="number"
-                placeholder="মাল ক্রয় দর"
+                placeholder="মাল ক্রয় দর"
                 value={kroyprice}
                 onChange={(e) => setKroyprice(e.target.value)}
-                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
               <input
                 type="number"
-                placeholder="আজকের বিক্রয় ওজন"
+                placeholder="আজকের বিক্রয় ওজন"
                 value={dailysaleweight}
                 onChange={(e) => setDailysaleweight(e.target.value)}
-                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
               <input
                 type="number"
                 placeholder="আজকের বিক্রয় দর"
                 value={dailysaleprice}
                 onChange={(e) => setDailysaleprice(e.target.value)}
-                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full px-5 py-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none text-black bg-gray-100"
               />
             </div>
 
