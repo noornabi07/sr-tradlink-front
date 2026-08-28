@@ -16,6 +16,7 @@ const BakiHisab = () => {
 
   const [updateName, setUpdateName] = useState("");
   const [updateLocation, setUpdateLocation] = useState("");
+  const [updateNumber, setUpdateNumber] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
@@ -60,6 +61,7 @@ const BakiHisab = () => {
     const updatedData = {
       name: updateName,
       location: updateLocation,
+      number: updateNumber,
     };
 
     fetch(`${API_BASE_URL}/clients/${selectedClient._id}`, {
@@ -89,6 +91,7 @@ const BakiHisab = () => {
 
         setIsUpdateModalOpen(false);
         setSelectedClient(null);
+        setUpdateNumber("");
       });
   };
 
@@ -400,6 +403,7 @@ const BakiHisab = () => {
                     setSelectedClient(item);
                     setUpdateName(item.name);
                     setUpdateLocation(item.location);
+                    setUpdateNumber(item.number || "");
                     setIsUpdateModalOpen(true);
                   }}
                 >
@@ -622,6 +626,15 @@ const BakiHisab = () => {
                 value={updateLocation}
                 onChange={(e) => setUpdateLocation(e.target.value)}
                 placeholder="লোকেশন"
+                className="w-full px-5 py-3 rounded-xl border
+          focus:ring-2 focus:ring-blue-500 outline-none text-black bg-gray-100"
+              />
+
+              <input
+                type="text"
+                value={updateNumber}
+                onChange={(e) => setUpdateNumber(e.target.value)}
+                placeholder="মোবাইল নম্বর"
                 className="w-full px-5 py-3 rounded-xl border
           focus:ring-2 focus:ring-blue-500 outline-none text-black bg-gray-100"
               />
